@@ -1,0 +1,33 @@
+from __future__ import annotations
+import typing as t
+
+import sqlalchemy.orm as sa_orm
+from sqlalchemy import event
+
+if t.TYPE_CHECKING:
+    from sqlalchemy.orm.session import ORMExecuteState
+    from sqlalchemy.orm.interfaces import UserDefinedOption
+
+
+PLUGIN_OPTIONS: set[type[UserDefinedOption]] = set()
+
+
+class SQLAlchemySessionLoad:
+    def __init__(self, session_factory: t.Callable[[], sa_orm.Session]) -> None:
+        event.listen(session_factory, "do_orm_execute", self.receive_orm_execute)
+
+    def handle_select(
+        self,
+        orm_execute_state: ORMExecuteState,
+        plugin_options: t.Sequence[UserDefinedOption],
+    ):
+        pass
+
+    def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
+        if orm_execute_state.is_select:
+            plugin_options = [
+                type(option) in PLUGIN_OPTIONS
+                for option in orm_execute_state.user_defined_options
+            ]
+
+            return self.handle_select(orm_execute_state, plugin_options)

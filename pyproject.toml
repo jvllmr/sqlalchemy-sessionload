@@ -1,0 +1,40 @@
+
+[project]
+name = "sqlalchemy-sessionload"
+version = "0.1.0"
+description = "SQLAlchemy load option that loads only from persisted session instances"
+authors = [
+    {name = "Jan Vollmer", email = "jan@vllmr.dev"},
+]
+license = {text = "MIT"}
+dependencies = [
+    "sqlalchemy>=1.4",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "sqlalchemy==1.4",
+    "black>=23.12.0",
+    "mypy>=1.7.1",
+    "ruff>=0.1.8",
+    "pytest>=7.4.3",
+    "pytest-cov>=4.1.0",
+    "isort>=5.13.1",
+    "pycln>=2.4.0",
+    "pyaphid>=0.3.1",
+    "pre-commit>=3.5.0",
+]
+
+
+[tool.mypy]
+python_version="3.8"
+files = ["src/sqlalchemy_sessionload"]
+
+[tool.isort]
+profile = "black"
