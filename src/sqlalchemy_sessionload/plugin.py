@@ -1,12 +1,13 @@
 from __future__ import annotations
+
 import typing as t
 
 import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
 
 if t.TYPE_CHECKING:
-    from sqlalchemy.orm.session import ORMExecuteState
     from sqlalchemy.orm.interfaces import UserDefinedOption
+    from sqlalchemy.orm.session import ORMExecuteState
 
 
 PLUGIN_OPTIONS: set[type[UserDefinedOption]] = set()
@@ -21,7 +22,7 @@ class SQLAlchemySessionLoad:
         orm_execute_state: ORMExecuteState,
         plugin_options: t.Sequence[UserDefinedOption],
     ):
-        pass
+        print(orm_execute_state.parameters)
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_select:

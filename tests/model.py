@@ -1,8 +1,10 @@
 from __future__ import annotations
-import sqlalchemy.orm as sa_orm
-import sqlalchemy as sa
-from faker import Faker
+
 from datetime import datetime
+
+import sqlalchemy as sa
+import sqlalchemy.orm as sa_orm
+from faker import Faker
 
 faker = Faker()
 
@@ -39,7 +41,7 @@ class User(DeclarativeBase):
     chat_rooms: sa_orm.Mapped[list[Chatroom]] = sa_orm.relationship(
         "Chatroom",
         secondary=chatroom_members_table,
-        back_populates="users",
+        back_populates="members",
         lazy="raise",
     )
 
@@ -76,6 +78,13 @@ class Chatroom(DeclarativeBase):
 
 class Message(DeclarativeBase):
     __tablename__ = "message"
+
+    __table_args__ = (
+        sa.ForeignKeyConstraint(
+            ["chatroom_id", "user_id"],
+            [chatroom_members_table.c.chatroom_id, chatroom_members_table.c.user_id],
+        ),
+    )
 
     message_id: sa_orm.Mapped[int] = sa.Column(
         sa.Integer, autoincrement=True, primary_key=True
