@@ -12,6 +12,6 @@
     "cSpell.words": [
         "sqlalchemy"
     ],
-    "python.languageServer": "Pylance"
-
+    "python.languageServer": "Pylance",
+    "python.defaultInterpreterPath": ".venv/bin/python"
 }

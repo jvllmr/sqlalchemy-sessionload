@@ -25,9 +25,11 @@ class SQLAlchemySessionLoad:
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_select:
-            plugin_options = [
-                type(option) in PLUGIN_OPTIONS
+            plugin_options: list[UserDefinedOption] = [
+                option
                 for option in orm_execute_state.user_defined_options
+                if type(option) in PLUGIN_OPTIONS
+                and isinstance(option, UserDefinedOption)
             ]
 
             return self.handle_select(orm_execute_state, plugin_options)
