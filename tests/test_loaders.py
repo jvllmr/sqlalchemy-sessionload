@@ -1,11 +1,12 @@
+import sqlalchemy as sa
+import sqlalchemy.orm as sa_orm
+
 from sqlalchemy_sessionload.loaders import (
     iter_session_mapper_instances,
     load_from_session,
 )
-from sqlalchemy_sessionload.options import SessionLoadOption
+
 from .model import Message
-import sqlalchemy.orm as sa_orm
-import sqlalchemy as sa
 
 message_mapper = Message.__mapper__
 
@@ -20,7 +21,16 @@ def test_iter_session_mapper_instances(db_session: sa_orm.Session):
 
 
 def test_basic_load_from_session(db_session: sa_orm.Session):
-    messages = db_session.query(Message).options(SessionLoadOption()).all()
+    messages = db_session.query(Message).all()
     loaded_messages = load_from_session(db_session, message_mapper, sa.select(Message))
     for message in messages:
         assert message in loaded_messages
+
+
+def test_filtered_load_from_session(db_session):
+    query = sa.select(Message).filter_by(user_id=5)
+    messages = db_session.execute(query).all()
+    loaded_messages = load_from_session(db_session, message_mapper, query)
+    assert len(loaded_messages) == len(messages)
+    for row in messages:
+        assert row[0] in loaded_messages

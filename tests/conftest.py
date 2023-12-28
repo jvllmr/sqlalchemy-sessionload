@@ -35,6 +35,10 @@ def random_choice(items: list[_T], min_length: int) -> list[_T]:
 @pytest.fixture()
 def db_session():
     with Session() as session:
+        # load everything into session
+        messages = session.query(Message).all()  # noqa: F841
+        users = session.query(User).all()  # noqa: F841
+        chat_rooms = session.query(Chatroom).all()  # noqa: F841
         yield session
 
 

@@ -5,7 +5,6 @@ import typing as t
 import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
 
-from sqlalchemy_sessionload.loaders import load_from_session
 from .options import SessionLoadOption
 
 if t.TYPE_CHECKING:
@@ -21,11 +20,9 @@ class SQLAlchemySessionLoad:
         orm_execute_state: ORMExecuteState,
         plugin_options: t.Sequence[SessionLoadOption],
     ):
-        instances = load_from_session(
-            orm_execute_state.session,
-            orm_execute_state.bind_mapper,
-            orm_execute_state.statement,  # type: ignore
-        )
+        for option in plugin_options:
+            if option.is_active(orm_execute_state):
+                return option.handle(orm_execute_state)
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_select:
