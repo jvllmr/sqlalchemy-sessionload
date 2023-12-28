@@ -18,4 +18,5 @@ def test_chat_rooms_exist(db_session: sa_orm.Session):
 
 def test_messages_exist(db_session: sa_orm.Session):
     messages_count = db_session.query(Message).count()
+    raise ValueError
     assert messages_count > 0

@@ -45,3 +45,6 @@ plugins = ["sqlalchemy.ext.mypy.plugin"]
 
 [tool.isort]
 profile = "black"
+
+[tool.pyaphid]
+forbidden = ["print"]
