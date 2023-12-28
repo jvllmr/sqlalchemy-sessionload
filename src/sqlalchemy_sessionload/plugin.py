@@ -4,13 +4,12 @@ import typing as t
 
 import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
+
+from sqlalchemy_sessionload.loaders import load_from_session
 from .options import SessionLoadOption
 
 if t.TYPE_CHECKING:
     from sqlalchemy.orm.session import ORMExecuteState
-
-
-PLUGIN_OPTIONS: set[type[SessionLoadOption]] = set()
 
 
 class SQLAlchemySessionLoad:
@@ -22,15 +21,19 @@ class SQLAlchemySessionLoad:
         orm_execute_state: ORMExecuteState,
         plugin_options: t.Sequence[SessionLoadOption],
     ):
-        pass
+        instances = load_from_session(
+            orm_execute_state.session,
+            orm_execute_state.bind_mapper,
+            orm_execute_state.statement,  # type: ignore
+        )
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_select:
             plugin_options: list[SessionLoadOption] = [
                 option
                 for option in orm_execute_state.user_defined_options
-                if type(option) in PLUGIN_OPTIONS
-                and isinstance(option, SessionLoadOption)
+                if isinstance(option, SessionLoadOption)
             ]
 
-            return self.handle_select(orm_execute_state, plugin_options)
+            if plugin_options:
+                return self.handle_select(orm_execute_state, plugin_options)
