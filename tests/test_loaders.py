@@ -5,8 +5,8 @@ from sqlalchemy_sessionload.loaders import (
     iter_session_mapper_instances,
     load_from_session,
 )
-
-from .model import Message
+import random
+from .model import Message, User
 
 message_mapper = Message.__mapper__
 
@@ -28,7 +28,13 @@ def test_basic_load_from_session(db_session: sa_orm.Session):
 
 
 def test_filtered_load_from_session(db_session):
-    query = sa.select(Message).filter_by(user_id=5)
+    user = db_session.get(User, (5,))
+    query = sa.select(Message).filter(
+        sa.and_(
+            Message.user_id == user.user_id,
+            Message.chatroom_id == random.choice(user.chat_rooms).chatroom_id,
+        )
+    )
     messages = db_session.execute(query).all()
     loaded_messages = load_from_session(db_session, message_mapper, query)
     assert len(loaded_messages) == len(messages)

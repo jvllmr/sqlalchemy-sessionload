@@ -7,7 +7,7 @@ import pytest
 import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+import sqlalchemy.orm as sa_orm
 from sqlalchemy_sessionload.plugin import SQLAlchemySessionLoad
 
 from .model import Chatroom, Message, User, chatroom_members_table, metadata
@@ -37,7 +37,9 @@ def db_session():
     with Session() as session:
         # load everything into session
         messages = session.query(Message).all()  # noqa: F841
-        users = session.query(User).all()  # noqa: F841
+        users = (
+            session.query(User).options(sa_orm.joinedload(User.chat_rooms)).all()
+        )  # noqa: F841
         chat_rooms = session.query(Chatroom).all()  # noqa: F841
         yield session
 
