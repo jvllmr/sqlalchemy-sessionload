@@ -48,3 +48,6 @@ profile = "black"
 
 [tool.pyaphid]
 forbidden = ["print"]
+
+[tool.ruff]
+ignore = ["E731"]

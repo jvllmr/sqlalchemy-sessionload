@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import operator
 import typing as t
-
+from sqlalchemy.sql import operators as sa_operators
 
 from sqlalchemy.sql.annotation import AnnotatedColumn  # type: ignore
 from sqlalchemy.sql.elements import (
@@ -34,12 +34,17 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
-        return lambda obj: expr.operator(eval_left(obj), eval_right(obj))
+        op = expr.operator
+        if op is sa_operators.is_:
+            op = lambda a, b: a is b
+        elif op is sa_operators.is_not:
+            op = lambda a, b: a is not b
+        return lambda obj: op(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
         op = expr.operator
         if op is operator.inv:
-            op = lambda value: not value  # noqa: E731
+            op = lambda value: not value
 
         return lambda obj: op(eval_expr(obj))
     elif isinstance(expr, Grouping):
