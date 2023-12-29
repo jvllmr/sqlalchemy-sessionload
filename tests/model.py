@@ -50,6 +50,8 @@ class User(DeclarativeBase):
         back_populates="user",
         lazy="raise",
         order_by="desc(Message.created_at)",
+        secondary=chatroom_members_table,
+        viewonly=True,
     )
 
 
@@ -73,6 +75,8 @@ class Chatroom(DeclarativeBase):
         back_populates="chatroom",
         lazy="raise",
         order_by="desc(Message.created_at)",
+        secondary=chatroom_members_table,
+        viewonly=True,
     )
 
 
@@ -89,12 +93,8 @@ class Message(DeclarativeBase):
     message_id: sa_orm.Mapped[int] = sa.Column(
         sa.Integer, autoincrement=True, primary_key=True
     )
-    user_id: sa_orm.Mapped[int] = sa.Column(
-        sa.Integer, sa.ForeignKey("user.user_id"), nullable=False
-    )
-    chatroom_id: sa_orm.Mapped[int] = sa.Column(
-        sa.Integer, sa.ForeignKey("chatroom.chatroom_id"), nullable=False
-    )
+    user_id: sa_orm.Mapped[int] = sa.Column(sa.Integer, nullable=False)
+    chatroom_id: sa_orm.Mapped[int] = sa.Column(sa.Integer, nullable=False)
 
     created_at: sa_orm.Mapped[datetime] = sa.Column(
         sa.DateTime(False), nullable=False, default=faker.date_time
@@ -105,9 +105,19 @@ class Message(DeclarativeBase):
     )
 
     chatroom: sa_orm.Mapped[Chatroom] = sa_orm.relationship(
-        "Chatroom", back_populates="messages", lazy="raise"
+        "Chatroom",
+        back_populates="messages",
+        lazy="raise",
+        secondary=chatroom_members_table,
+        uselist=False,
+        overlaps="chat_rooms,members",
     )
 
     user: sa_orm.Mapped[User] = sa_orm.relationship(
-        "User", back_populates="messages", lazy="raise"
+        "User",
+        back_populates="messages",
+        lazy="raise",
+        secondary=chatroom_members_table,
+        uselist=False,
+        overlaps="chat_rooms,members,chatroom",
     )
