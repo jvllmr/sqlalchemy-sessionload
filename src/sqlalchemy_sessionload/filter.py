@@ -3,7 +3,7 @@ from __future__ import annotations
 import operator
 import typing as t
 
-from sqlalchemy.orm import Mapper
+
 from sqlalchemy.sql.annotation import AnnotatedColumn  # type: ignore
 from sqlalchemy.sql.elements import (
     BinaryExpression,
@@ -11,11 +11,12 @@ from sqlalchemy.sql.elements import (
     UnaryExpression,
     BooleanClauseList,
     ColumnElement,
+    Grouping,
 )
 from sqlalchemy.sql.selectable import Select
 
 TSupportedExprs = t.Union[
-    BooleanClauseList, BinaryExpression, ColumnElement, UnaryExpression
+    BooleanClauseList, BinaryExpression, ColumnElement, UnaryExpression, Grouping
 ]
 
 
@@ -36,7 +37,14 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
         return lambda obj: expr.operator(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
-        return lambda obj: expr.operator(eval_expr(obj))
+        op = expr.operator
+        if op is operator.inv:
+            op = lambda value: not value  # noqa: E731
+
+        return lambda obj: op(eval_expr(obj))
+    elif isinstance(expr, Grouping):
+        eval_expr = evaluate_expression(expr.element)
+        return lambda obj: eval_expr(obj)
     elif isinstance(expr, AnnotatedColumn):
         # try to access attribute from instance
         return lambda obj: getattr(obj, expr.description)
