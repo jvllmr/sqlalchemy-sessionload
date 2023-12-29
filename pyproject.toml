@@ -18,6 +18,7 @@ ignore_package_warnings = ["pre-commit"]
 [tool.pdm.scripts]
 '_'.env = { SQLALCHEMY_WARN_20 = "1" }
 test = "pytest"
+coverage = "pytest --cov=src/sqlalchemy_sessionload --cov-report=xml:coverage.xml"
 
 [tool.pycln]
 all = true
