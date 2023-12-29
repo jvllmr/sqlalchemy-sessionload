@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import operator
+
 import typing as t
-from sqlalchemy.sql import operators as sa_operators
+from sqlalchemy.sql import operators
 
 from sqlalchemy.sql.annotation import AnnotatedColumn  # type: ignore
 from sqlalchemy.sql.elements import (
@@ -27,23 +27,27 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
 
     if isinstance(expr, BooleanClauseList):
         eval_clauses = [evaluate_expression(clause, **kw) for clause in expr.clauses]
-        if expr.operator is operator.and_:
+        if expr.operator is operators.and_:
             return lambda obj: all(clause(obj) for clause in eval_clauses)
-        elif expr.operator is operator.or_:
+        elif expr.operator is operators.or_:
             return lambda obj: any(clause(obj) for clause in eval_clauses)
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
         op = expr.operator
-        if op is sa_operators.is_:
+        if op is operators.is_:
             op = lambda a, b: a is b
-        elif op is sa_operators.is_not:
+        elif op is operators.is_not:
             op = lambda a, b: a is not b
+        elif op is operators.in_op:
+            op = lambda a, b: a in b
+        elif op is operators.not_in_op:
+            op = lambda a, b: a not in b
         return lambda obj: op(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
         op = expr.operator
-        if op is operator.inv:
+        if op is operators.inv:
             op = lambda value: not value
 
         return lambda obj: op(eval_expr(obj))

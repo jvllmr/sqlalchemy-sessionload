@@ -209,6 +209,26 @@ def test_expr_is_not(db_session: sa_orm.Session):
     )
 
 
+def test_expr_in(db_session: sa_orm.Session):
+    basic_expr_test(
+        db_session,
+        [
+            lambda message: Message.message_id.in_([message.message_id]),
+        ],
+        [lambda _: Message.message_id.in_([0])],
+    )
+
+
+def test_expr_not_in(db_session: sa_orm.Session):
+    basic_expr_test(
+        db_session,
+        [lambda _: Message.message_id.not_in([0])],
+        [
+            lambda message: Message.message_id.not_in([message.message_id]),
+        ],
+    )
+
+
 def test_construct_filter_simple_test(db_session: sa_orm.Session):
     messages: list[Message] = db_session.query(Message).all()
     selected_message = random.choice(messages)
