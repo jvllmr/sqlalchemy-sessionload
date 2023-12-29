@@ -8,15 +8,18 @@ from sqlalchemy.sql.annotation import AnnotatedColumn  # type: ignore
 from sqlalchemy.sql.elements import (
     BinaryExpression,
     BindParameter,
+    UnaryExpression,
     BooleanClauseList,
     ColumnElement,
 )
 from sqlalchemy.sql.selectable import Select
 
+TSupportedExprs = t.Union[
+    BooleanClauseList, BinaryExpression, ColumnElement, UnaryExpression
+]
 
-def evaluate_expression(
-    expr: BooleanClauseList | BinaryExpression | ColumnElement, **kw
-) -> t.Callable[[t.Any], bool]:
+
+def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool]:
     """
     Evaluate BinaryExpressions of a Select statement to create a filter function which is ready for higher order functions
     """
@@ -31,6 +34,9 @@ def evaluate_expression(
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
         return lambda obj: expr.operator(eval_left(obj), eval_right(obj))
+    elif isinstance(expr, UnaryExpression):
+        eval_expr = evaluate_expression(expr.element, **kw)
+        return lambda obj: expr.operator(eval_expr(obj))
     elif isinstance(expr, AnnotatedColumn):
         # try to access attribute from instance
         return lambda obj: getattr(obj, expr.description)
