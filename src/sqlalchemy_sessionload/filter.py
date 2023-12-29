@@ -37,8 +37,7 @@ def evaluate_expression(
     elif isinstance(expr, BindParameter):
         return lambda obj: expr.effective_value
 
-    # better don't
-    return lambda obj: False
+    raise TypeError(f"Don't know how to evaluate expression of type {type(expr)}")
 
 
 def construct_filter_from_statement(
