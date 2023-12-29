@@ -1,11 +1,14 @@
+import random
+
 import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
 
 from sqlalchemy_sessionload.loaders import (
     iter_session_mapper_instances,
+    load_by_primary_key,
     load_from_session,
 )
-import random
+
 from .model import Message, User
 
 message_mapper = Message.__mapper__
@@ -18,6 +21,17 @@ def test_iter_session_mapper_instances(db_session: sa_orm.Session):
 
     for message in messages:
         assert message in iter_values
+
+
+def test_load_by_primary_key(db_session: sa_orm.Session):
+    message: Message | None = db_session.query(Message).first()
+    assert message is not None
+    loaded_message = load_by_primary_key(
+        db_session,
+        message_mapper,
+        sa.select(Message).where(Message.message_id == message.message_id),
+    )
+    assert loaded_message is message
 
 
 def test_basic_load_from_session(db_session: sa_orm.Session):

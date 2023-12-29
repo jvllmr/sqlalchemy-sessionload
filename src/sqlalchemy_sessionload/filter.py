@@ -1,27 +1,32 @@
 from __future__ import annotations
 
-
 import typing as t
-from sqlalchemy.sql import operators
 
+from sqlalchemy.sql import operators
 from sqlalchemy.sql.annotation import AnnotatedColumn  # type: ignore
 from sqlalchemy.sql.elements import (
     BinaryExpression,
     BindParameter,
-    UnaryExpression,
     BooleanClauseList,
+    ClauseElement,
+    ClauseList,
     ColumnElement,
     Grouping,
-    ClauseList,
+    UnaryExpression,
 )
 from sqlalchemy.sql.selectable import Select
 
 TSupportedExprs = t.Union[
-    BooleanClauseList, BinaryExpression, ColumnElement, UnaryExpression, Grouping
+    BooleanClauseList,
+    BinaryExpression,
+    ColumnElement,
+    UnaryExpression,
+    Grouping,
+    ClauseElement,
 ]
 
 
-def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool]:
+def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.Any]:
     """
     Evaluate BinaryExpressions of a Select statement to create a filter function which is ready for higher order functions
     """
@@ -68,7 +73,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
 
         return lambda obj: op(eval_expr(obj))
     elif isinstance(expr, Grouping):
-        eval_expr = evaluate_expression(expr.element)
+        eval_expr = evaluate_expression(expr.element, **kw)
         return lambda obj: eval_expr(obj)
     elif isinstance(expr, AnnotatedColumn):
         # try to access attribute from instance
