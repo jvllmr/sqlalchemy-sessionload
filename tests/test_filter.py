@@ -229,6 +229,16 @@ def test_expr_not_in(db_session: sa_orm.Session):
     )
 
 
+def test_expr_between(db_session: sa_orm.Session):
+    basic_expr_test(
+        db_session,
+        [lambda _: Message.message_id.between(0, 1000)],
+        [
+            lambda message: Message.message_id.between(-1000, 0),
+        ],
+    )
+
+
 def test_construct_filter_simple_test(db_session: sa_orm.Session):
     messages: list[Message] = db_session.query(Message).all()
     selected_message = random.choice(messages)

@@ -12,6 +12,7 @@ from sqlalchemy.sql.elements import (
     BooleanClauseList,
     ColumnElement,
     Grouping,
+    ClauseList,
 )
 from sqlalchemy.sql.selectable import Select
 
@@ -31,6 +32,10 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
             return lambda obj: all(clause(obj) for clause in eval_clauses)
         elif expr.operator is operators.or_:
             return lambda obj: any(clause(obj) for clause in eval_clauses)
+    elif isinstance(expr, ClauseList):
+        return lambda obj: [
+            evaluate_expression(clause, **kw)(obj) for clause in expr.clauses
+        ]
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
@@ -43,6 +48,17 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], bool
             op = lambda a, b: a in b
         elif op is operators.not_in_op:
             op = lambda a, b: a not in b
+        elif op is operators.between_op:
+
+            def between_comparison(obj: t.Any):
+                bounds = eval_right(obj)
+                value = eval_left(obj)
+                # use min-max for symmetric behavior
+                lower = min(bounds)
+                higher = max(bounds)
+                return lower <= value and higher >= value
+
+            return between_comparison
         return lambda obj: op(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
