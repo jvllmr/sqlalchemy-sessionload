@@ -50,7 +50,7 @@ def test_filtered_load_from_session(db_session):
         )
     )
     messages = db_session.execute(query).all()
-    loaded_messages = load_from_session(db_session, message_mapper, query)
+    loaded_messages = tuple(load_from_session(db_session, message_mapper, query))
     assert len(loaded_messages) == len(messages)
     for row in messages:
         assert row[0] in loaded_messages

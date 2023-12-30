@@ -38,6 +38,7 @@ dev = [
     "sqlalchemy2-stubs>=0.0.2a37",
     "faker>=21.0.0",
     "pytest-benchmark>=4.0.0",
+    "devtools>=0.12.2",
 ]
 
 [tool.mypy]

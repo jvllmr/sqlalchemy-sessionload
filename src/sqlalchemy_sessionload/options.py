@@ -17,7 +17,7 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def handle(self, orm_execute_state: ORMExecuteState) -> list:
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
         """
         Load from session and return instance objects
         """
@@ -37,7 +37,7 @@ class SessionLoad(SessionLoadOption):
             and orm_execute_state.bind_mapper.class_ == self.mapped_class
         )
 
-    def handle(self, orm_execute_state: ORMExecuteState) -> list:
+    def handle(self, orm_execute_state: ORMExecuteState):
         instance = load_by_primary_key(
             orm_execute_state.session,
             orm_execute_state.bind_mapper,
@@ -47,7 +47,7 @@ class SessionLoad(SessionLoadOption):
         if instance is not None:
             return [instance]
 
-        return load_from_session(
+        yield from load_from_session(
             orm_execute_state.session,
             orm_execute_state.bind_mapper,
             orm_execute_state.statement,  # type: ignore

@@ -75,10 +75,10 @@ def load_by_primary_key(
 
 def load_from_session(session: Session, mapper: Mapper, statement: Select):
     filter_ = construct_filter_from_statement(statement, mapper=mapper)
-    return [
+    return (
         instance
         for instance in filter(
             filter_,
             iter_session_mapper_instances(session, mapper),
         )
-    ]
+    )
