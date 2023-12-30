@@ -6,9 +6,11 @@ import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
 
 from .options import SessionLoadOption
+import logging
 
 if t.TYPE_CHECKING:
     from sqlalchemy.orm.session import ORMExecuteState
+log = logging.getLogger(__name__)
 
 
 class SQLAlchemySessionLoad:
@@ -22,7 +24,9 @@ class SQLAlchemySessionLoad:
     ):
         for option in plugin_options:
             if option.is_active(orm_execute_state):
-                return option.handle(orm_execute_state)
+                res = option.handle(orm_execute_state)
+                log.info(f"Loaded {len(res)} objects from session")
+                return res
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_select:
