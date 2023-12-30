@@ -41,7 +41,7 @@ class SessionLoad(SessionLoadOption):
         instance = load_by_primary_key(
             orm_execute_state.session,
             orm_execute_state.bind_mapper,
-            orm_execute_state.statement,
+            orm_execute_state.statement,  # type: ignore
             identity_token=self.identity_token,
         )
         if instance is not None:

@@ -8,7 +8,7 @@ from sqlalchemy import event
 
 from .options import SessionLoadOption
 import logging
-from sqlalchemy.engine import Result, FrozenResult, BaseRow
+from sqlalchemy.engine.result import IteratorResult, SimpleResultMetaData
 from sqlalchemy.orm.loading import merge_result, instances
 from sqlalchemy.engine.cursor import NoCursorDQLFetchStrategy, CursorResult
 from sqlalchemy.engine.default import DefaultExecutionContext
@@ -31,27 +31,13 @@ class SQLAlchemySessionLoad:
     ):
         for option in plugin_options:
             if option.is_active(orm_execute_state):
-                res = list(option.handle(orm_execute_state))
-                cursor_strategy = NoCursorDQLFetchStrategy()
-                execution_context = DefaultExecutionContext()
-                compile_state = ORMSelectCompileState.create_for_statement(
-                    orm_execute_state.statement, orm_execute_state.statement
-                )
-                query_context = QueryContext(
-                    "?",
-                    orm_execute_state.statement,
-                    orm_execute_state.parameters,
-                    orm_execute_state.session,
-                    orm_execute_state.load_options,
-                    orm_execute_state.execution_options,
-                    orm_execute_state.bind_arguments,
-                )
+                res = option.handle(orm_execute_state)
 
-                cursor_result = CursorResult(
-                    execution_context, cursor_strategy=cursor_strategy
+                result_metadata = SimpleResultMetaData(
+                    c.name for c in orm_execute_state.statement.selected_columns
                 )
-                log.info(f"Loaded {len(res)} objects from session")
-                return instances(cursor_result, query_context)
+                log.info("Loaded objects from session")
+                return IteratorResult(result_metadata, map(lambda obj: (obj,), res))
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_orm_statement and orm_execute_state.is_select:
