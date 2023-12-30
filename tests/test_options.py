@@ -1,9 +1,10 @@
-from sqlalchemy_sessionload.options import SessionLoad
-import sqlalchemy as sa
-from .model import Message
-from devtools import debug
 import pytest
+import sqlalchemy as sa
 from pytest_benchmark.fixture import BenchmarkFixture
+
+from sqlalchemy_sessionload.options import SessionLoad
+
+from .model import Message
 
 
 @pytest.mark.benchmark(group="basic-query")

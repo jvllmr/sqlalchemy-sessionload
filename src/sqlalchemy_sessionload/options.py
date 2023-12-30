@@ -6,7 +6,7 @@ from abc import ABCMeta, abstractmethod
 from sqlalchemy.orm.interfaces import UserDefinedOption
 from sqlalchemy.orm.session import ORMExecuteState
 
-from .loaders import load_from_session, load_by_primary_key
+from .loaders import load_by_primary_key, load_from_session
 
 
 class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):

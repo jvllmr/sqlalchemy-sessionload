@@ -1,14 +1,18 @@
 from __future__ import annotations
-from .model import Message
-import sqlalchemy.orm as sa_orm
-from sqlalchemy_sessionload.filter import (
-    construct_filter_from_statement,
-    evaluate_expression,
-    TSupportedExprs,
-)
-import sqlalchemy as sa
+
 import random
 import typing as t
+
+import sqlalchemy as sa
+import sqlalchemy.orm as sa_orm
+
+from sqlalchemy_sessionload.filter import (
+    TSupportedExprs,
+    construct_filter_from_statement,
+    evaluate_expression,
+)
+
+from .model import Message
 
 TExprFactory = t.Callable[[Message], TSupportedExprs]
 

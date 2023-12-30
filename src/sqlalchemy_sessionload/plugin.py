@@ -1,19 +1,13 @@
 from __future__ import annotations
 
+import logging
 import typing as t
-from sqlalchemy.engine.result import ResultMetaData
 
 import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
+from sqlalchemy.engine.result import IteratorResult, SimpleResultMetaData
 
 from .options import SessionLoadOption
-import logging
-from sqlalchemy.engine.result import IteratorResult, SimpleResultMetaData
-from sqlalchemy.orm.loading import merge_result, instances
-from sqlalchemy.engine.cursor import NoCursorDQLFetchStrategy, CursorResult
-from sqlalchemy.engine.default import DefaultExecutionContext
-from sqlalchemy.orm.context import QueryContext
-from sqlalchemy.orm.context import ORMSelectCompileState
 
 if t.TYPE_CHECKING:
     from sqlalchemy.orm.session import ORMExecuteState
@@ -34,7 +28,8 @@ class SQLAlchemySessionLoad:
                 res = option.handle(orm_execute_state)
 
                 result_metadata = SimpleResultMetaData(
-                    c.name for c in orm_execute_state.statement.selected_columns
+                    c.name
+                    for c in orm_execute_state.statement.selected_columns  # type:ignore
                 )
                 log.info("Loaded objects from session")
                 return IteratorResult(result_metadata, map(lambda obj: (obj,), res))
