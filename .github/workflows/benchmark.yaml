@@ -25,11 +25,6 @@ jobs:
           cache: true
       - name: Install dependencies
         run: pdm install
-      - name: Download previous benchmark data
-        uses: actions/cache@v3
-        with:
-          path: ./cache
-          key: ${{ runner.os }}-benchmark
       - name: Run tests
         run: pdm benchmark
       - name: Store benchmark result
@@ -43,4 +38,3 @@ jobs:
           summary-always: true
           auto-push: true
           gh-pages-branch: pages
-          external-data-json-path: ./cache/benchmark-data.json
