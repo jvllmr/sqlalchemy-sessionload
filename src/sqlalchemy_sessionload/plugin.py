@@ -47,7 +47,9 @@ class SQLAlchemySessionLoad:
                 )
 
                 log.info("Loaded objects from session")
-                if is_query_api(orm_execute_state):
+                if not orm_execute_state.is_relationship_load and is_query_api(
+                    orm_execute_state
+                ):
                     return QueryAPIIteratorResult(result_metadata, res)
                 return IteratorResult(result_metadata, map(lambda obj: (obj,), res))
 

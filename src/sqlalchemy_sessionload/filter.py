@@ -79,7 +79,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
         # try to access attribute from instance
         return lambda obj: getattr(obj, expr.description)
     elif isinstance(expr, BindParameter):
-        return lambda obj: expr.effective_value
+        return lambda obj: expr.effective_value  # type: ignore
 
     raise TypeError(f"Don't know how to evaluate expression of type {type(expr)}")
 

@@ -3,7 +3,9 @@ from __future__ import annotations
 import typing as t
 from abc import ABCMeta, abstractmethod
 
+from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.orm.interfaces import UserDefinedOption
+from sqlalchemy.orm.path_registry import PropRegistry
 from sqlalchemy.orm.session import ORMExecuteState
 
 from .loaders import load_by_primary_key, load_from_session
@@ -23,6 +25,25 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
         """
 
 
+def default_handle(
+    orm_execute_state: ORMExecuteState, identity_token: t.Any | None = None
+):
+    instance = load_by_primary_key(
+        orm_execute_state.session,
+        orm_execute_state.bind_mapper,
+        orm_execute_state.statement,  # type: ignore
+        identity_token=identity_token,
+    )
+    if instance is not None:
+        return [instance]
+
+    yield from load_from_session(
+        orm_execute_state.session,
+        orm_execute_state.bind_mapper,
+        orm_execute_state.statement,  # type: ignore
+    )
+
+
 class SessionLoad(SessionLoadOption):
     def __init__(
         self, mapped_class: type[t.Any], identity_token: t.Any | None = None
@@ -37,18 +58,32 @@ class SessionLoad(SessionLoadOption):
             and orm_execute_state.bind_mapper.class_ == self.mapped_class
         )
 
-    def handle(self, orm_execute_state: ORMExecuteState):
-        instance = load_by_primary_key(
-            orm_execute_state.session,
-            orm_execute_state.bind_mapper,
-            orm_execute_state.statement,  # type: ignore
-            identity_token=self.identity_token,
-        )
-        if instance is not None:
-            return [instance]
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
+        return default_handle(orm_execute_state, self.identity_token)
 
-        yield from load_from_session(
-            orm_execute_state.session,
-            orm_execute_state.bind_mapper,
-            orm_execute_state.statement,  # type: ignore
+
+class SessionRelationshipLoad(SessionLoadOption):
+    def __init__(
+        self, *path: InstrumentedAttribute, identity_token: t.Any | None = None
+    ) -> None:
+        if len(path) < 1:
+            raise ValueError("Relationship path cannot be empty")
+        self.path = path
+        self.identity_token = identity_token
+
+    def is_active(self, orm_execute_state: ORMExecuteState) -> bool:
+        target_mapper = self.path[-1].class_.__mapper__
+
+        strategy_path = orm_execute_state.loader_strategy_path
+        if not strategy_path:
+            return False
+
+        return (
+            orm_execute_state.is_orm_statement
+            and orm_execute_state.is_relationship_load
+            and isinstance(strategy_path, PropRegistry)
+            and strategy_path.mapper is target_mapper
         )
+
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
+        return default_handle(orm_execute_state, self.identity_token)
