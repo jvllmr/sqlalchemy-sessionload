@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704315140572,
+  "lastUpdate": 1704315141398,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -616,6 +616,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00017099417000737983",
             "extra": "mean: 7.751492305784674 msec\nrounds: 121"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jan@vllmr.dev",
+            "name": "Jan Vollmer",
+            "username": "jvllmr"
+          },
+          "committer": {
+            "email": "jan@vllmr.dev",
+            "name": "Jan Vollmer",
+            "username": "jvllmr"
+          },
+          "distinct": true,
+          "id": "b8e6b2e0350460869b0e90ccb1443117c23cc452",
+          "message": "add link to benchmark in readme",
+          "timestamp": "2024-01-03T21:51:42+01:00",
+          "tree_id": "56f82bfdd20530d3856cd3ba8ea96a8d5327768b",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/commit/b8e6b2e0350460869b0e90ccb1443117c23cc452"
+        },
+        "date": 1704315140230,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 284.83035818391926,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010412817349641267",
+            "extra": "mean: 3.5108617156401736 msec\nrounds: 211"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 1418.3039416733795,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00045658721779692237",
+            "extra": "mean: 705.0674898499926 usec\nrounds: 1133"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load",
+            "value": 4.147864696716635,
+            "unit": "iter/sec",
+            "range": "stddev: 0.009469965688243109",
+            "extra": "mean: 241.08790260000035 msec\nrounds: 5"
+          },
+          {
+            "name": "tests/test_options.py::test_realtionship_load_option",
+            "value": 159.06349330111584,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0016194249078504703",
+            "extra": "mean: 6.286797675862341 msec\nrounds: 145"
           }
         ]
       },
