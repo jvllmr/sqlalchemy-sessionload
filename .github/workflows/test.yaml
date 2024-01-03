@@ -24,5 +24,22 @@ jobs:
           cache: true
       - name: Install dependencies
         run: pdm install
+      - name: Download previous benchmark data
+        uses: actions/cache@v1
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
       - name: Run tests
-        run: pdm coverage
+        run: pdm ci_test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "pytest"
+          output-file-path: benchmark.json
+          fail-on-alert: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          summary-always: true
+          auto-push: true
