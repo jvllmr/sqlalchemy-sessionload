@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704314331270,
+  "lastUpdate": 1704314332838,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -104,6 +104,54 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.002534283863357457",
             "extra": "mean: 10.231061118810821 msec\nrounds: 101"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "jvllmr",
+            "username": "jvllmr"
+          },
+          "committer": {
+            "name": "jvllmr",
+            "username": "jvllmr"
+          },
+          "id": "d4b2789c17c860376212b10220a6f6845b842f34",
+          "message": "Update actions/cache action to v3",
+          "timestamp": "2023-12-15T18:23:26Z",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/pull/4/commits/d4b2789c17c860376212b10220a6f6845b842f34"
+        },
+        "date": 1704314330255,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 214.73365249821137,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0019547430620568606",
+            "extra": "mean: 4.656931917126169 msec\nrounds: 181"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 1070.1401990681188,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008316244471838844",
+            "extra": "mean: 934.456999999442 usec\nrounds: 841"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load",
+            "value": 3.480210036550243,
+            "unit": "iter/sec",
+            "range": "stddev: 0.012580083529187257",
+            "extra": "mean: 287.33897940000475 msec\nrounds: 5"
+          },
+          {
+            "name": "tests/test_options.py::test_realtionship_load_option",
+            "value": 118.52011926682259,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0026222887394302392",
+            "extra": "mean: 8.437386042016334 msec\nrounds: 119"
           }
         ]
       },
