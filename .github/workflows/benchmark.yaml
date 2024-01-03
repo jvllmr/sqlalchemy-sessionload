@@ -1,26 +1,27 @@
-name: Routine Checks
+name: Benchmark
 
 on:
   push:
     branches: [dev]
   pull_request:
     branches: [dev]
-  schedule:
-    - cron: "0 0 * * *"
+
+permissions:
+    # deployments permission to deploy GitHub pages website
+    deployments: write
+    # contents permission to update benchmark contents in gh-pages branch
+    contents: write
 
 jobs:
   Test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
       - name: Setup PDM
         uses: pdm-project/setup-pdm@v3
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
           cache: true
       - name: Install dependencies
         run: pdm install
@@ -30,9 +31,7 @@ jobs:
           path: ./cache
           key: ${{ runner.os }}-benchmark
       - name: Run tests
-        run: pdm test
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        run: pdm benchmark
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
