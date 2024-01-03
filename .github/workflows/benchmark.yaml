@@ -43,3 +43,4 @@ jobs:
           summary-always: true
           auto-push: true
           gh-pages-branch: pages
+          external-data-json-path: ./cache/benchmark-data.json
