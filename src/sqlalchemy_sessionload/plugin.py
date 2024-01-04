@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 import typing as t
 
 import sqlalchemy.orm as sa_orm
@@ -11,7 +10,6 @@ from .options import SessionLoadOption
 
 if t.TYPE_CHECKING:
     from sqlalchemy.orm.session import ORMExecuteState
-log = logging.getLogger(__name__)
 
 
 def is_query_api(orm_execute_state: ORMExecuteState) -> bool:
@@ -42,11 +40,9 @@ class SQLAlchemySessionLoad:
                 res = option.handle(orm_execute_state)
 
                 result_metadata = SimpleResultMetaData(
-                    c.name
-                    for c in orm_execute_state.statement.selected_columns  # type:ignore
+                    [orm_execute_state.bind_mapper.class_.__name__]
                 )
 
-                log.info("Loaded objects from session")
                 if not orm_execute_state.is_relationship_load and is_query_api(
                     orm_execute_state
                 ):

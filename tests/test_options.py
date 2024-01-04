@@ -39,9 +39,19 @@ def test_basic_load_with_option_query(db_session: sa_orm.Session):
     messages = db_session.query(Message).all()
 
     loaded_messages = db_session.query(Message).options(SessionLoad(Message)).all()
-
+    assert len(loaded_messages) == len(messages)
     for message in messages:
         assert message in loaded_messages
+
+
+def test_equal_result_metadata_keys(db_session: sa_orm.Session):
+    messages = db_session.execute(sa.select(Message))
+
+    loaded_messages = db_session.execute(
+        sa.select(Message).options(SessionLoad(Message))
+    )
+
+    assert loaded_messages._metadata._keys == messages._metadata._keys
 
 
 @pytest.mark.benchmark(group="relationship-load")
@@ -49,9 +59,9 @@ def test_relationship_load(db_session: sa_orm.Session, benchmark: BenchmarkFixtu
     messages = db_session.execute(
         sa.select(Message).options(
             sa_orm.subqueryload(Message.chatroom),
-            sa_orm.subqueryload(Message.chatroom, Chatroom.members),
+            sa_orm.subqueryload(Message.chatroom, Chatroom.members),  # type: ignore
             sa_orm.subqueryload(Message.user),
-            sa_orm.subqueryload(Message.user, User.chat_rooms),
+            sa_orm.subqueryload(Message.user, User.chat_rooms),  # type: ignore
         )
     ).all()
 
