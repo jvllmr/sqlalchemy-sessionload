@@ -23,6 +23,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: true
       - name: Install dependencies
-        run: pdm install
+        run: pdm install --no-lock
       - name: Run tests
         run: pdm test
