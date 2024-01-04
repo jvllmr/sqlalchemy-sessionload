@@ -7,8 +7,10 @@ from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.orm.interfaces import UserDefinedOption
 from sqlalchemy.orm.path_registry import PropRegistry
 from sqlalchemy.orm.session import ORMExecuteState
+from sqlalchemy.sql.selectable import Select
 
 from .loaders import load_by_primary_key, load_from_session
+from .sort import maybe_apply_sort
 
 
 class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
@@ -28,19 +30,21 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
 def default_handle(
     orm_execute_state: ORMExecuteState, identity_token: t.Any | None = None
 ):
+    statement: Select = orm_execute_state.statement  # type: ignore
     instance = load_by_primary_key(
         orm_execute_state.session,
         orm_execute_state.bind_mapper,
-        orm_execute_state.statement,  # type: ignore
+        statement,
         identity_token=identity_token,
     )
     if instance is not None:
         return [instance]
 
-    yield from load_from_session(
-        orm_execute_state.session,
-        orm_execute_state.bind_mapper,
-        orm_execute_state.statement,  # type: ignore
+    yield from maybe_apply_sort(
+        statement,
+        load_from_session(
+            orm_execute_state.session, orm_execute_state.bind_mapper, statement
+        ),
     )
 
 

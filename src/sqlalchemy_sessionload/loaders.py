@@ -75,6 +75,7 @@ def load_by_primary_key(
 
 def load_from_session(session: Session, mapper: Mapper, statement: Select):
     filter_ = construct_filter_from_statement(statement, mapper=mapper)
+    # print(statement._order_by_clauses)  # type: ignore
     return (
         instance
         for instance in filter(

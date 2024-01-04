@@ -37,7 +37,7 @@ class SQLAlchemySessionLoad:
     ):
         for option in plugin_options:
             if option.is_active(orm_execute_state):
-                res = option.handle(orm_execute_state)
+                result_iterator = option.handle(orm_execute_state)
 
                 result_metadata = SimpleResultMetaData(
                     [orm_execute_state.bind_mapper.class_.__name__]
@@ -46,8 +46,10 @@ class SQLAlchemySessionLoad:
                 if not orm_execute_state.is_relationship_load and is_query_api(
                     orm_execute_state
                 ):
-                    return QueryAPIIteratorResult(result_metadata, res)
-                return IteratorResult(result_metadata, map(lambda obj: (obj,), res))
+                    return QueryAPIIteratorResult(result_metadata, result_iterator)
+                return IteratorResult(
+                    result_metadata, map(lambda obj: (obj,), result_iterator)
+                )
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):
         if orm_execute_state.is_orm_statement and orm_execute_state.is_select:
