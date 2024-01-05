@@ -23,7 +23,6 @@ from sqlalchemy_sessionload import SQLAlchemySessionLoad
 
 Session = sessionmaker(...)
 SQLAlchemySessionLoad(Session)
-
 ```
 
 ### Simple Query
@@ -31,13 +30,12 @@ SQLAlchemySessionLoad(Session)
 ```python
 from sqlalchemy_sessionload import SessionLoad
 from project.model import Message
+
 # assignment is needed
 # otherwise instances are not saved in session
 all_messages = session.query(Message).all()
 
 session_messages = session.query(Message).options(SessionLoad(Message)).all()
-
-
 ```
 
 ### Load relationship
@@ -48,14 +46,18 @@ Joined loading is currently only available with subqueryload.
 from sqlalchemy_sessionload import SessionRelationshipLoad
 from project.model import Message, User
 import sqlalchemy.orm as sa_orm
+
 # assignment is needed
 # otherwise instances are not saved in session
 all_users = session.query(User).all()
 
 
 # users connected to messages are now loaded from session
-session_messages = session.query(Message).options(sa_orm.subqueryload(Message.user),SessionRelationshipLoad(Message.user)).all()
-
+session_messages = (
+    session.query(Message)
+    .options(sa_orm.subqueryload(Message.user), SessionRelationshipLoad(Message.user))
+    .all()
+)
 ```
 
 ## Benchmark
