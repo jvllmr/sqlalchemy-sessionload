@@ -54,7 +54,7 @@ all_users = session.query(User).all()
 
 
 # users connected to messages are now loaded from session
-session_messages = session.query(Message).options(sa_orm.subqueryload(Message.user),SessionLoad(Message.user)).all()
+session_messages = session.query(Message).options(sa_orm.subqueryload(Message.user),SessionRelationshipLoad(Message.user)).all()
 
 ```
 
