@@ -5,6 +5,7 @@ from datetime import datetime
 import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
 from faker import Faker
+from sqlalchemy_utils.models import generic_repr
 
 faker = Faker()
 
@@ -13,6 +14,7 @@ metadata = sa.MetaData()
 
 
 @sa_orm.as_declarative(metadata=metadata)
+@generic_repr
 class DeclarativeBase:
     pass
 

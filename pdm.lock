@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:52ba572697eae77e5ba06eec90706af9688184b9ce8c321a39bebcce20334d64"
+content_hash = "sha256:0363ae28d9fa8c890ec54f0447a5e7600c02a2753305aac35e2595ff19293f7d"
 
 [[package]]
 name = "ast-comments"
@@ -765,6 +765,17 @@ files = [
   { file = "SQLAlchemy-1.4.51-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:0d661cff58c91726c601cc0ee626bf167b20cc4d7941c93c5f3ac28dc34ddbea" },
   { file = "SQLAlchemy-1.4.51-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3823dda635988e6744d4417e13f2e2b5fe76c4bf29dd67e95f98717e1b094cad" },
   { file = "SQLAlchemy-1.4.51.tar.gz", hash = "sha256:e7908c2025eb18394e32d65dd02d2e37e17d733cdbe7d78231c2b6d7eb20cdb9" },
+]
+
+[[package]]
+name = "sqlalchemy-utils"
+version = "0.41.1"
+requires_python = ">=3.6"
+summary = "Various utility functions for SQLAlchemy."
+dependencies = ["SQLAlchemy>=1.3"]
+files = [
+  { file = "SQLAlchemy-Utils-0.41.1.tar.gz", hash = "sha256:a2181bff01eeb84479e38571d2c0718eb52042f9afd8c194d0d02877e84b7d74" },
+  { file = "SQLAlchemy_Utils-0.41.1-py3-none-any.whl", hash = "sha256:6c96b0768ea3f15c0dc56b363d386138c562752b84f647fb8d31a2223aaab801" },
 ]
 
 [[package]]
