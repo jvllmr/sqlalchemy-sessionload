@@ -3,7 +3,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dd/sqlalchemy-sessionload)
 [![GitHub license](https://img.shields.io/github/license/jvllmr/sqlalchemy-sessionload)](https://github.com/jvllmr/sqlalchemy-sessionload/blob/dev/LICENSE)
 [![Codecov](https://img.shields.io/codecov/c/github/jvllmr/sqlalchemy-sessionload/dev?style=plastic)](https://app.codecov.io/gh/jvllmr/sqlalchemy-sessionload/tree/dev)
-[![Routine Checks](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yml/badge.svg)](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yml)
+[![Routine Checks](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yaml/badge.svg)](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yaml)
 
 SQLAlchemy load option that loads from persisted session instances.
 
