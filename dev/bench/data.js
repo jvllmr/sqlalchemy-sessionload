@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1704482191978,
+  "lastUpdate": 1704482825220,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -1192,6 +1192,72 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.012772315930092584",
             "extra": "mean: 65.86310088888246 msec\nrounds: 18"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jan@vllmr.dev",
+            "name": "Jan Vollmer",
+            "username": "jvllmr"
+          },
+          "committer": {
+            "email": "jan@vllmr.dev",
+            "name": "Jan Vollmer",
+            "username": "jvllmr"
+          },
+          "distinct": true,
+          "id": "dbda8390407971d721fce8ba227c727352d52170",
+          "message": "add publish workflow",
+          "timestamp": "2024-01-05T20:26:02+01:00",
+          "tree_id": "d411ad3dab05741ca1c347dd3417635d669ad590",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/commit/dbda8390407971d721fce8ba227c727352d52170"
+        },
+        "date": 1704482824295,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 309.1363959868585,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011917231258803623",
+            "extra": "mean: 3.234818070540327 msec\nrounds: 241"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 1782.583755908947,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004789754580552347",
+            "extra": "mean: 560.9834582443481 usec\nrounds: 1401"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options0-lib_options0]",
+            "value": 4.672423287360173,
+            "unit": "iter/sec",
+            "range": "stddev: 0.01499471151224194",
+            "extra": "mean: 214.02170533333256 msec\nrounds: 6"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options1-lib_options1]",
+            "value": 15.143506054739891,
+            "unit": "iter/sec",
+            "range": "stddev: 0.008778495716186264",
+            "extra": "mean: 66.03490607691882 msec\nrounds: 13"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options0-lib_options0]",
+            "value": 175.87609358595725,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0021362323758864574",
+            "extra": "mean: 5.685821077844571 msec\nrounds: 167"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options1-lib_options1]",
+            "value": 14.949517129497465,
+            "unit": "iter/sec",
+            "range": "stddev: 0.008744529103478976",
+            "extra": "mean: 66.89179264705892 msec\nrounds: 17"
           }
         ]
       }
