@@ -1,12 +1,20 @@
 [project]
 name = "sqlalchemy-sessionload"
-version = "0.1.0"
+version = "1.0.0"
 description = "SQLAlchemy load option that loads only from persisted session instances"
 authors = [{ name = "Jan Vollmer", email = "jan@vllmr.dev" }]
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 dependencies = ["sqlalchemy>=1.4"]
 requires-python = ">=3.8"
 readme = "README.md"
+keywords = ["sqlalchemy", "session", "loader"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Plugins ",
+]
+
+[project.urls]
+Source = "https://github.com/jvllmr/sqlalchemy-sessionload"
 
 [build-system]
 requires = ["pdm-backend"]
@@ -20,6 +28,7 @@ ignore_package_warnings = ["pre-commit"]
 test = "pytest"
 coverage = "pytest --cov=src/sqlalchemy_sessionload --cov-report=xml:coverage.xml"
 benchmark = "pytest --benchmark-json benchmark.json"
+post_install = "pre-commit install"
 
 [tool.pycln]
 all = true

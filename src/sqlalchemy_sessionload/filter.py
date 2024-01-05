@@ -39,7 +39,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
             return lambda obj: any(clause(obj) for clause in eval_clauses)
     elif isinstance(expr, ClauseList):
         return lambda obj: [
-            evaluate_expression(clause, **kw)(obj) for clause in expr.clauses
+            evaluate_expression(clause, **kw)(obj) for clause in expr.clauses  # type: ignore
         ]
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)

@@ -1,6 +1,62 @@
 # sqlalchemy-sessionload
 
-SQLAlchemy load option that loads only from persisted session instances
+![PyPI - Downloads](https://img.shields.io/pypi/dd/sqlalchemy-sessionload)
+[![GitHub license](https://img.shields.io/github/license/jvllmr/sqlalchemy-sessionload)](https://github.com/jvllmr/sqlalchemy-sessionload/blob/dev/LICENSE)
+[![Codecov](https://img.shields.io/codecov/c/github/jvllmr/sqlalchemy-sessionload/dev?style=plastic)](https://app.codecov.io/gh/jvllmr/sqlalchemy-sessionload/tree/dev)
+[![Routine Checks](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yml/badge.svg)](https://github.com/jvllmr/sqlalchemy-sessionload/actions/workflows/test.yml)
+
+SQLAlchemy load option that loads from persisted session instances.
+
+Supports SQLAlchemy 1.4
+
+## Basic usage
+
+SessionLoad is available for basic queries and relationship loading
+
+Filters and Order By constructs are also supported.
+If you miss something you are invited to contribute.
+
+For installation the plugin has to be registered:
+
+```python
+from sqlalchemy_sessionload import SQLAlchemySessionLoad
+
+Session = sessionmaker(...)
+SQLAlchemySessionLoad(Session)
+
+```
+
+### Simple Query
+
+```python
+from sqlalchemy_sessionload import SessionLoad
+from project.model import Message
+# assignment is needed
+# otherwise instances are not saved in session
+all_messages = session.query(Message).all()
+
+session_messages = session.query(Message).options(SessionLoad(Message)).all()
+
+
+```
+
+### Load relationship
+
+Joined loading is currently only available with subqueryload.
+
+```python
+from sqlalchemy_sessionload import SessionRelationshipLoad
+from project.model import Message, User
+import sqlalchemy.orm as sa_orm
+# assignment is needed
+# otherwise instances are not saved in session
+all_users = session.query(User).all()
+
+
+# users connected to messages are now loaded from session
+session_messages = session.query(Message).options(sa_orm.subqueryload(Message.user),SessionLoad(Message.user)).all()
+
+```
 
 ## Benchmark
 

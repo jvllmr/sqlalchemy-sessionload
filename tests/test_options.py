@@ -51,59 +51,67 @@ def test_equal_result_metadata_keys(db_session: sa_orm.Session):
         sa.select(Message).options(SessionLoad(Message))
     )
 
-    assert loaded_messages._metadata._keys == messages._metadata._keys
+    assert loaded_messages._metadata._keys == messages._metadata._keys  # type: ignore
 
 
-@pytest.mark.benchmark(group="relationship-load")
-def test_relationship_load(db_session: sa_orm.Session, benchmark: BenchmarkFixture):
-    messages = db_session.execute(
-        sa.select(Message).options(
-            sa_orm.subqueryload(Message.chatroom),
-            sa_orm.subqueryload(Message.chatroom, Chatroom.members),  # type: ignore
-            sa_orm.subqueryload(Message.user),
-            sa_orm.subqueryload(Message.user, User.chat_rooms),  # type: ignore
-        )
-    ).all()
-
-    @benchmark
-    def messages():
-        stmt = sa.select(Message).options(
+load_option_params = [
+    (
+        [
             sa_orm.subqueryload(Message.chatroom),
             sa_orm.subqueryload(Message.chatroom, Chatroom.members),
             sa_orm.subqueryload(Message.user),
             sa_orm.subqueryload(Message.user, User.chat_rooms),
-        )
+        ],
+        [
+            SessionRelationshipLoad(Message.chatroom, Chatroom.members),
+            SessionRelationshipLoad(Message.user, User.chat_rooms),
+        ],
+    ),
+    (
+        [
+            sa_orm.selectinload(Message.chatroom),
+            sa_orm.selectinload(Message.chatroom, Chatroom.members),
+            sa_orm.selectinload(Message.user),
+            sa_orm.selectinload(Message.user, User.chat_rooms),
+        ],
+        [
+            SessionRelationshipLoad(Message.chatroom, Chatroom.members),
+            SessionRelationshipLoad(Message.user, User.chat_rooms),
+        ],
+    ),
+]
+
+
+@pytest.mark.parametrize(["basic_options", "lib_options"], load_option_params)
+@pytest.mark.benchmark(group="relationship-load")
+def test_relationship_load(
+    db_session: sa_orm.Session, benchmark: BenchmarkFixture, basic_options, lib_options
+):
+    messages = db_session.execute(sa.select(Message).options(*basic_options)).all()
+
+    @benchmark
+    def messages():
+        stmt = sa.select(Message).options(*basic_options)
         return db_session.execute(stmt).all()
 
     assert len(messages) > 0
 
 
+@pytest.mark.parametrize(["basic_options", "lib_options"], load_option_params)
 @pytest.mark.benchmark(group="relationship-load")
-def test_realtionship_load_option(
-    db_session: sa_orm.Session, benchmark: BenchmarkFixture
+def test_relationship_load_option(
+    db_session: sa_orm.Session, benchmark: BenchmarkFixture, basic_options, lib_options
 ):
     messages = [
         row[0]
         for row in db_session.execute(
-            sa.select(Message).options(
-                sa_orm.subqueryload(Message.chatroom),
-                sa_orm.subqueryload(Message.chatroom, Chatroom.members),
-                sa_orm.subqueryload(Message.user),
-                sa_orm.subqueryload(Message.user, User.chat_rooms),
-            ),
+            sa.select(Message).options(*basic_options),
         )
     ]
 
     @benchmark
     def loaded_messages():
-        stmt = sa.select(Message).options(
-            sa_orm.subqueryload(Message.chatroom),
-            sa_orm.subqueryload(Message.chatroom, Chatroom.members),
-            SessionRelationshipLoad(Message.chatroom, Chatroom.members),
-            sa_orm.subqueryload(Message.user),
-            sa_orm.subqueryload(Message.user, User.chat_rooms),
-            SessionRelationshipLoad(Message.user, User.chat_rooms),
-        )
+        stmt = sa.select(Message).options(*basic_options, *lib_options)
         return [row[0] for row in db_session.execute(stmt)]
 
     messages = sorted(messages, key=lambda message: message.message_id)
