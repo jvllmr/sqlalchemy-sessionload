@@ -5,11 +5,9 @@ import typing as t
 import sqlalchemy.orm as sa_orm
 from sqlalchemy import event
 from sqlalchemy.engine.result import IteratorResult, SimpleResultMetaData
+from sqlalchemy.orm.session import ORMExecuteState
 
 from .options import SessionLoadOption
-
-if t.TYPE_CHECKING:
-    from sqlalchemy.orm.session import ORMExecuteState
 
 
 def is_query_api(orm_execute_state: ORMExecuteState) -> bool:
