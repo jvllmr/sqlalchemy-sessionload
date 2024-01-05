@@ -12,6 +12,9 @@ permissions:
   # contents permission to update benchmark contents in gh-pages branch
   contents: write
 
+env:
+  PRE_COMMIT_ALLOW_NO_CONFIG: 1
+
 jobs:
   Test:
     runs-on: ubuntu-latest
