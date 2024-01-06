@@ -41,7 +41,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: true
-      - name: Install dependencies
-        run: pdm install --no-lock
+      - name: Install nox
+        run: pip install nox
       - name: Run tests
         run: pdm test_20
