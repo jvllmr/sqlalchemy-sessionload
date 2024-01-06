@@ -29,6 +29,7 @@ source = "scm"
 [tool.pdm.scripts]
 '_'.env = { SQLALCHEMY_WARN_20 = "1" }
 test = "pytest"
+test_20 = "nox -s tests_20"
 coverage = "pytest --cov=src/sqlalchemy_sessionload --cov-report=xml:coverage.xml"
 benchmark = "pytest --benchmark-json benchmark.json"
 post_install = "pre-commit install"
@@ -52,6 +53,7 @@ dev = [
   "faker>=21.0.0",
   "pytest-benchmark>=4.0.0",
   "sqlalchemy-utils>=0.41.1",
+  "nox>=2023.4.22",
 ]
 
 [tool.mypy]

@@ -1,5 +1,4 @@
-from __future__ import annotations
-
+import typing as t
 from datetime import datetime
 
 import sqlalchemy as sa
@@ -40,14 +39,14 @@ class User(DeclarativeBase):
     )
     name: sa_orm.Mapped[str] = sa.Column(sa.String, nullable=False, default=faker.name)
 
-    chat_rooms: sa_orm.Mapped[list[Chatroom]] = sa_orm.relationship(
+    chat_rooms: sa_orm.Mapped[t.List["Chatroom"]] = sa_orm.relationship(
         "Chatroom",
         secondary=chatroom_members_table,
         back_populates="members",
         lazy="raise",
     )
 
-    messages: sa_orm.Mapped[list[Message]] = sa_orm.relationship(
+    messages: sa_orm.Mapped[t.List["Message"]] = sa_orm.relationship(
         "Message",
         back_populates="user",
         lazy="raise",
@@ -64,7 +63,7 @@ class Chatroom(DeclarativeBase):
         sa.Integer, autoincrement=True, primary_key=True
     )
 
-    members: sa_orm.Mapped[list[User]] = sa_orm.relationship(
+    members: sa_orm.Mapped[t.List[User]] = sa_orm.relationship(
         "User",
         secondary=chatroom_members_table,
         back_populates="chat_rooms",
@@ -72,7 +71,7 @@ class Chatroom(DeclarativeBase):
         lazy="raise",
     )
 
-    messages: sa_orm.Mapped[list[Message]] = sa_orm.relationship(
+    messages: sa_orm.Mapped[t.List["Message"]] = sa_orm.relationship(
         "Message",
         back_populates="chatroom",
         lazy="raise",

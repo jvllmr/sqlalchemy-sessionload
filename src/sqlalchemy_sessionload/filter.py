@@ -16,6 +16,11 @@ from sqlalchemy.sql.elements import (
 )
 from sqlalchemy.sql.selectable import Select
 
+try:
+    from sqlalchemy.sql.elements import ExpressionClauseList  # type: ignore
+except ImportError:
+    ExpressionClauseList = None
+
 TSupportedExprs = t.Union[
     BooleanClauseList,
     BinaryExpression,
@@ -31,7 +36,9 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
     Evaluate BinaryExpressions of a Select statement to create a filter function which is ready for higher order functions
     """
 
-    if isinstance(expr, BooleanClauseList):
+    if isinstance(expr, (BooleanClauseList)) or (
+        ExpressionClauseList is not None and isinstance(expr, ExpressionClauseList)
+    ):
         eval_clauses = [evaluate_expression(clause, **kw) for clause in expr.clauses]
         if expr.operator is operators.and_:
             return lambda obj: all(clause(obj) for clause in eval_clauses)
@@ -54,13 +61,21 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
         elif op is operators.not_in_op:
             op = lambda a, b: a not in b
         elif op is operators.between_op:
+            if ExpressionClauseList is not None:
+                bounds = (
+                    evaluate_expression(expr.right.clauses[0], **kw),
+                    evaluate_expression(expr.right.clauses[1], **kw),
+                )
 
             def between_comparison(obj: t.Any):
-                bounds = eval_right(obj)
+                if ExpressionClauseList is None:
+                    bounds_values = eval_right(obj)
+                else:
+                    bounds_values = [bound_get(obj) for bound_get in bounds]
                 value = eval_left(obj)
                 # use min-max for symmetric behavior
-                lower = min(bounds)
-                higher = max(bounds)
+                lower = min(bounds_values)
+                higher = max(bounds_values)
                 return lower <= value and higher >= value
 
             return between_comparison
