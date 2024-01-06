@@ -15,5 +15,5 @@ def tests(session: nox.Session):
 def tests_20(session: nox.Session):
     session.run_always("pdm", "install", "--no-lock", external=True)
     session.install("sqlalchemy>2.0")
-    session.run("pytest")
+    session.run("pdm", "coverage")
     session.install("sqlalchemy<2.0")
