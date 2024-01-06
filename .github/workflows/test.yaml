@@ -10,6 +10,7 @@ on:
 
 jobs:
   Test:
+    name: Test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -27,6 +28,7 @@ jobs:
       - name: Run tests
         run: pdm test
   Test20:
+    name: Test SA 2.0
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
