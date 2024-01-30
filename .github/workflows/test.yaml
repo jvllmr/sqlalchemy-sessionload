@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: pdm install --no-lock
       - name: Run tests
-        run: pdm coverage
+        run: pdm test_14
       - name: Store coverage files
         uses: actions/upload-artifact@v3
         with:
