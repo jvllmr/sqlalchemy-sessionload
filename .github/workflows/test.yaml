@@ -26,8 +26,11 @@ jobs:
         run: pdm install --no-lock
       - name: Run tests
         run: pdm coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Store coverage files
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.xml
   Test20:
     name: Test SA 2.0
     runs-on: ubuntu-latest
@@ -46,5 +49,27 @@ jobs:
         run: pip install nox
       - name: Run tests
         run: pdm test_20
+      - name: Store coverage files
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage_20.xml
+
+  coverage-upload:
+    needs: [Test, Test20]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Get coverage files
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+      - run: pip install coverage[toml]
+      - run: coverage combine coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
