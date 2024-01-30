@@ -28,9 +28,9 @@ source = "scm"
 
 [tool.pdm.scripts]
 '_'.env = { SQLALCHEMY_WARN_20 = "1" }
-test = "pytest"
+test = "nox"
+test_14 = "nox -s tests"
 test_20 = "nox -s tests_20"
-coverage = "pytest --cov=src/sqlalchemy_sessionload --cov-report=xml:coverage.xml"
 benchmark = "pytest --benchmark-json benchmark.json"
 post_install = "pre-commit install"
 

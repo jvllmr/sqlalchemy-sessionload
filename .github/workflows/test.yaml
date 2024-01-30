@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: coverage.xml
+          path: coverage
   Test20:
     name: Test SA 2.0
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: coverage_20.xml
+          path: coverage
 
   coverage-upload:
     needs: [Test, Test20]
