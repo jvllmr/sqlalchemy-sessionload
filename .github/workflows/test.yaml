@@ -27,7 +27,7 @@ jobs:
       - name: Run tests
         run: pdm test_14
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
           directory: coverage
           files: ./coverage/coverage.xml
@@ -51,7 +51,7 @@ jobs:
       - name: Run tests
         run: pdm test_20
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
           directory: coverage
           files: ./coverage/coverage_20.xml
