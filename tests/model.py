@@ -91,17 +91,17 @@ class Message(DeclarativeBase):
         ),
     )
 
-    message_id: sa_orm.Mapped[int] = sa.Column(
+    message_id: sa_orm.Mapped[int] = sa_orm.mapped_column(
         sa.Integer, autoincrement=True, primary_key=True
     )
-    user_id: sa_orm.Mapped[int] = sa.Column(sa.Integer, nullable=False)
-    chatroom_id: sa_orm.Mapped[int] = sa.Column(sa.Integer, nullable=False)
+    user_id: sa_orm.Mapped[int] = sa_orm.mapped_column(sa.Integer, nullable=False)
+    chatroom_id: sa_orm.Mapped[int] = sa_orm.mapped_column(sa.Integer, nullable=False)
 
-    created_at: sa_orm.Mapped[datetime] = sa.Column(
+    created_at: sa_orm.Mapped[datetime] = sa_orm.mapped_column(
         sa.DateTime(False), nullable=False, default=faker.date_time
     )
 
-    text: sa_orm.Mapped[str] = sa.Column(
+    text: sa_orm.Mapped[str] = sa_orm.mapped_column(
         sa.Text, nullable=False, default=faker.sentence
     )
 

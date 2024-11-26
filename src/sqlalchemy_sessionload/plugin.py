@@ -25,7 +25,7 @@ class QueryAPIIteratorResult(IteratorResult):
 
 
 class SQLAlchemySessionLoad:
-    def __init__(self, session_factory: t.Callable[[], sa_orm.Session]) -> None:
+    def __init__(self, session_factory: sa_orm.sessionmaker[t.Any]) -> None:
         event.listen(session_factory, "do_orm_execute", self.receive_orm_execute)
 
     def handle_select(
@@ -33,6 +33,8 @@ class SQLAlchemySessionLoad:
         orm_execute_state: ORMExecuteState,
         plugin_options: t.Sequence[SessionLoadOption],
     ):
+        if orm_execute_state.bind_mapper is None:
+            raise ValueError("Cannot do session load with no mapper present")
         for option in plugin_options:
             if option.is_active(orm_execute_state):
                 result_iterator = option.handle(orm_execute_state)

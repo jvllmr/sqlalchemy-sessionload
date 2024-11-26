@@ -13,7 +13,7 @@ def test_basic_load(db_session: sa_orm.Session, benchmark: BenchmarkFixture):
     messages = db_session.execute(sa.select(Message)).all()
 
     @benchmark
-    def messages():
+    def messages():  # noqa: F811
         stmt = sa.select(Message)
         return db_session.execute(stmt).all()
 
@@ -90,7 +90,7 @@ def test_relationship_load(
     messages = db_session.execute(sa.select(Message).options(*basic_options)).all()
 
     @benchmark
-    def messages():
+    def messages():  # noqa: F811
         stmt = sa.select(Message).options(*basic_options)
         return db_session.execute(stmt).all()
 

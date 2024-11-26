@@ -11,15 +11,11 @@ from sqlalchemy.sql.elements import (
     ClauseElement,
     ClauseList,
     ColumnElement,
+    ExpressionClauseList,
     Grouping,
     UnaryExpression,
 )
 from sqlalchemy.sql.selectable import Select
-
-try:
-    from sqlalchemy.sql.elements import ExpressionClauseList  # type: ignore
-except ImportError:
-    ExpressionClauseList = None
 
 TSupportedExprs = t.Union[
     BooleanClauseList,
@@ -46,32 +42,30 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
             return lambda obj: any(clause(obj) for clause in eval_clauses)
     elif isinstance(expr, ClauseList):
         return lambda obj: [
-            evaluate_expression(clause, **kw)(obj) for clause in expr.clauses  # type: ignore
+            evaluate_expression(clause, **kw)(obj)
+            for clause in expr.clauses  # type: ignore
         ]
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
         op = expr.operator
+        evaluated_op = lambda a, b: False
         if op is operators.is_:
-            op = lambda a, b: a is b
+            evaluated_op = lambda a, b: a is b
         elif op is operators.is_not:
-            op = lambda a, b: a is not b
+            evaluated_op = lambda a, b: a is not b
         elif op is operators.in_op:
-            op = lambda a, b: a in b
+            evaluated_op = lambda a, b: a in b
         elif op is operators.not_in_op:
-            op = lambda a, b: a not in b
+            evaluated_op = lambda a, b: a not in b
         elif op is operators.between_op:
-            if ExpressionClauseList is not None:
-                bounds = (
-                    evaluate_expression(expr.right.clauses[0], **kw),
-                    evaluate_expression(expr.right.clauses[1], **kw),
-                )
+            bounds = (
+                evaluate_expression(expr.right.clauses[0], **kw),
+                evaluate_expression(expr.right.clauses[1], **kw),
+            )
 
             def between_comparison(obj: t.Any):
-                if ExpressionClauseList is None:
-                    bounds_values = eval_right(obj)
-                else:
-                    bounds_values = [bound_get(obj) for bound_get in bounds]
+                bounds_values = [bound_get(obj) for bound_get in bounds]
                 value = eval_left(obj)
                 # use min-max for symmetric behavior
                 lower = min(bounds_values)
@@ -79,14 +73,15 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
                 return lower <= value and higher >= value
 
             return between_comparison
-        return lambda obj: op(eval_left(obj), eval_right(obj))
+        return lambda obj: evaluated_op(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
-        op = expr.operator
-        if op is operators.inv:
-            op = lambda value: not value
+        unary_op = expr.operator
+        evaluated_unary_op = lambda value: False
+        if unary_op is operators.inv:
+            evaluated_unary_op = lambda value: not value
 
-        return lambda obj: op(eval_expr(obj))
+        return lambda obj: evaluated_unary_op(eval_expr(obj))
     elif isinstance(expr, Grouping):
         eval_expr = evaluate_expression(expr.element, **kw)
         return lambda obj: eval_expr(obj)
