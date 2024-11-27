@@ -9,7 +9,7 @@ readme = "README.md"
 keywords = ["sqlalchemy", "session", "loader"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
-  "Environment :: Plugins ",
+  "Environment :: Plugins",
 ]
 dynamic = ["version"]
 
