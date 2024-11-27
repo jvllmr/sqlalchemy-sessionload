@@ -30,7 +30,7 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
 def default_handle(
     orm_execute_state: ORMExecuteState, identity_token: t.Any | None = None
 ):
-    if orm_execute_state.bind_mapper is None:
+    if orm_execute_state.bind_mapper is None:  # pragma: no cover
         raise ValueError("Cannot do session load with no mapper present")
     statement: Select = orm_execute_state.statement  # type: ignore
     instance = load_by_primary_key(

@@ -33,7 +33,7 @@ class SQLAlchemySessionLoad:
         orm_execute_state: ORMExecuteState,
         plugin_options: t.Sequence[SessionLoadOption],
     ):
-        if orm_execute_state.bind_mapper is None:
+        if orm_execute_state.bind_mapper is None:  # pragma: no cover
             raise ValueError("Cannot do session load with no mapper present")
         for option in plugin_options:
             if option.is_active(orm_execute_state):
