@@ -31,7 +31,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
     """
     Evaluate BinaryExpressions of a Select statement to create a filter function which is ready for higher order functions
     """
-
+    op: t.Any  # too lazy to fix typing...
     if isinstance(expr, (BooleanClauseList)) or (
         ExpressionClauseList is not None and isinstance(expr, ExpressionClauseList)
     ):
@@ -49,15 +49,14 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
         eval_left = evaluate_expression(expr.left, **kw)
         eval_right = evaluate_expression(expr.right, **kw)
         op = expr.operator
-        evaluated_op = lambda a, b: False
         if op is operators.is_:
-            evaluated_op = lambda a, b: a is b
+            op = lambda a, b: a is b
         elif op is operators.is_not:
-            evaluated_op = lambda a, b: a is not b
+            op = lambda a, b: a is not b
         elif op is operators.in_op:
-            evaluated_op = lambda a, b: a in b
+            op = lambda a, b: a in b
         elif op is operators.not_in_op:
-            evaluated_op = lambda a, b: a not in b
+            op = lambda a, b: a not in b
         elif op is operators.between_op:
             bounds = (
                 evaluate_expression(expr.right.clauses[0], **kw),
@@ -73,15 +72,15 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
                 return lower <= value and higher >= value
 
             return between_comparison
-        return lambda obj: evaluated_op(eval_left(obj), eval_right(obj))
+        return lambda obj: op(eval_left(obj), eval_right(obj))
     elif isinstance(expr, UnaryExpression):
         eval_expr = evaluate_expression(expr.element, **kw)
-        unary_op = expr.operator
-        evaluated_unary_op = lambda value: False
-        if unary_op is operators.inv:
-            evaluated_unary_op = lambda value: not value
+        op = expr.operator
 
-        return lambda obj: evaluated_unary_op(eval_expr(obj))
+        if op is operators.inv:
+            op = lambda value: not value
+
+        return lambda obj: op(eval_expr(obj))
     elif isinstance(expr, Grouping):
         eval_expr = evaluate_expression(expr.element, **kw)
         return lambda obj: eval_expr(obj)
