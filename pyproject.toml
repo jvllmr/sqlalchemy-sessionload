@@ -4,7 +4,7 @@ description = "SQLAlchemy load option that loads only from persisted session ins
 authors = [{ name = "Jan Vollmer", email = "jan@vllmr.dev" }]
 license = { file = "LICENSE" }
 dependencies = ["sqlalchemy>=2.0.0"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 readme = "README.md"
 keywords = ["sqlalchemy", "session", "loader"]
 classifiers = [
