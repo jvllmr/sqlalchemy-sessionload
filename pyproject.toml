@@ -3,8 +3,8 @@ name = "sqlalchemy-sessionload"
 description = "SQLAlchemy load option that loads only from persisted session instances"
 authors = [{ name = "Jan Vollmer", email = "jan@vllmr.dev" }]
 license = { file = "LICENSE" }
-dependencies = ["sqlalchemy>=1.4"]
-requires-python = ">=3.8"
+dependencies = ["sqlalchemy>=2.0.0"]
+requires-python = ">=3.9"
 readme = "README.md"
 keywords = ["sqlalchemy", "session", "loader"]
 classifiers = [
@@ -27,19 +27,27 @@ ignore_package_warnings = ["pre-commit"]
 source = "scm"
 
 [tool.pdm.scripts]
-'_'.env = { SQLALCHEMY_WARN_20 = "1" }
-test = "nox"
-test_14 = "nox -s tests"
-test_20 = "nox -s tests_20"
+test = "pytest"
+cov = "pytest --cov --cov-report=xml"
 benchmark = "pytest --benchmark-json benchmark.json"
 post_install = "pre-commit install"
 
 [tool.pycln]
 all = true
 
-[tool.pdm.dev-dependencies]
+[tool.mypy]
+python_version = "3.9"
+files = ["src/sqlalchemy_sessionload", "tests"]
+plugins = ["sqlalchemy.ext.mypy.plugin"]
+
+[tool.pyaphid]
+forbidden = ["print"]
+
+[tool.ruff.lint]
+ignore = ["E731"]
+
+[dependency-groups]
 dev = [
-  "sqlalchemy<2.0",
   "black>=23.12.0",
   "mypy>=1.7.1",
   "ruff>=0.1.8",
@@ -49,23 +57,9 @@ dev = [
   "pycln>=2.4.0",
   "pyaphid>=0.3.1",
   "pre-commit>=3.5.0",
-  "sqlalchemy2-stubs>=0.0.2a37",
   "faker>=21.0.0",
   "pytest-benchmark>=4.0.0",
   "sqlalchemy-utils>=0.41.1",
   "nox>=2023.4.22",
+  "types-sqlalchemy-utils>=1.1.0",
 ]
-
-[tool.mypy]
-python_version = "3.8"
-files = ["src/sqlalchemy_sessionload", "tests"]
-plugins = ["sqlalchemy.ext.mypy.plugin"]
-
-[tool.isort]
-profile = "black"
-
-[tool.pyaphid]
-forbidden = ["print"]
-
-[tool.ruff]
-ignore = ["E731"]

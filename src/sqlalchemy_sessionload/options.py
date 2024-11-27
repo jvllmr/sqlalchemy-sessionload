@@ -21,7 +21,7 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterator[t.Any]:
         """
         Load from session and return instance objects
         """
@@ -30,6 +30,8 @@ class SessionLoadOption(UserDefinedOption, metaclass=ABCMeta):
 def default_handle(
     orm_execute_state: ORMExecuteState, identity_token: t.Any | None = None
 ):
+    if orm_execute_state.bind_mapper is None:  # pragma: no cover
+        raise ValueError("Cannot do session load with no mapper present")
     statement: Select = orm_execute_state.statement  # type: ignore
     instance = load_by_primary_key(
         orm_execute_state.session,
@@ -56,13 +58,14 @@ class SessionLoad(SessionLoadOption):
         self.identity_token = identity_token
 
     def is_active(self, orm_execute_state: ORMExecuteState) -> bool:
-        return (
+        return bool(
             not orm_execute_state.is_relationship_load
             and not orm_execute_state.is_column_load
+            and orm_execute_state.bind_mapper
             and orm_execute_state.bind_mapper.class_ == self.mapped_class
         )
 
-    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterator[t.Any]:
         return default_handle(orm_execute_state, self.identity_token)
 
 
@@ -89,5 +92,5 @@ class SessionRelationshipLoad(SessionLoadOption):
             and strategy_path.mapper is target_mapper
         )
 
-    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterable:
+    def handle(self, orm_execute_state: ORMExecuteState) -> t.Iterator[t.Any]:
         return default_handle(orm_execute_state, self.identity_token)

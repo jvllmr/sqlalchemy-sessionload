@@ -10,48 +10,48 @@ from .model import Chatroom, Message, User
 
 @pytest.mark.benchmark(group="basic-query")
 def test_basic_load(db_session: sa_orm.Session, benchmark: BenchmarkFixture):
-    messages = db_session.execute(sa.select(Message)).all()
+    preloaded_messages = db_session.execute(sa.select(Message)).all()  # noqa: F841
 
-    @benchmark
-    def messages():
+    @benchmark  # type:ignore[no-redef]
+    def loaded_messages():  # noqa: F811
         stmt = sa.select(Message)
         return db_session.execute(stmt).all()
 
-    assert len(messages) > 0
+    assert len(loaded_messages) > 0
 
 
 @pytest.mark.benchmark(group="basic-query")
 def test_basic_load_with_option(
     db_session: sa_orm.Session, benchmark: BenchmarkFixture
 ):
-    messages = db_session.execute(sa.select(Message)).all()
+    preloaded_messages = db_session.execute(sa.select(Message)).all()  # noqa: F841
 
-    @benchmark
+    @benchmark  # type:ignore[no-redef]
     def loaded_messages():
         stmt = sa.select(Message).options(SessionLoad(Message))
         return db_session.execute(stmt).all()
 
-    for message in messages:
+    for message in preloaded_messages:
         assert message in loaded_messages
 
 
 def test_basic_load_with_option_query(db_session: sa_orm.Session):
-    messages = db_session.query(Message).all()
+    preloaded_messages = db_session.query(Message).all()
 
     loaded_messages = db_session.query(Message).options(SessionLoad(Message)).all()
-    assert len(loaded_messages) == len(messages)
-    for message in messages:
+    assert len(loaded_messages) == len(preloaded_messages)
+    for message in preloaded_messages:
         assert message in loaded_messages
 
 
 def test_equal_result_metadata_keys(db_session: sa_orm.Session):
-    messages = db_session.execute(sa.select(Message))
+    preloaded_messages = db_session.execute(sa.select(Message))
 
     loaded_messages = db_session.execute(
         sa.select(Message).options(SessionLoad(Message))
     )
 
-    assert loaded_messages._metadata._keys == messages._metadata._keys  # type: ignore
+    assert loaded_messages._metadata._keys == preloaded_messages._metadata._keys  # type: ignore
 
 
 load_option_params = [
@@ -87,14 +87,16 @@ load_option_params = [
 def test_relationship_load(
     db_session: sa_orm.Session, benchmark: BenchmarkFixture, basic_options, lib_options
 ):
-    messages = db_session.execute(sa.select(Message).options(*basic_options)).all()
+    preloaded_messages = db_session.execute(  # noqa: F841
+        sa.select(Message).options(*basic_options)
+    ).all()
 
     @benchmark
-    def messages():
+    def loaded_messages():  # noqa: F811
         stmt = sa.select(Message).options(*basic_options)
         return db_session.execute(stmt).all()
 
-    assert len(messages) > 0
+    assert len(loaded_messages) > 0
 
 
 @pytest.mark.parametrize(["basic_options", "lib_options"], load_option_params)

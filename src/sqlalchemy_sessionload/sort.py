@@ -85,7 +85,8 @@ def construct_sort_key(
     statement: Select,
 ):
     sort_key_spec = (
-        generate_sort_key_spec(clause) for clause in statement._order_by_clauses  # type: ignore
+        generate_sort_key_spec(clause)
+        for clause in statement._order_by_clauses  # type: ignore
     )
     return sql_sort_key(*sort_key_spec)
 
