@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1732571073820,
+  "lastUpdate": 1732745508826,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -6896,6 +6896,72 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.007254455395588407",
             "extra": "mean: 71.83625723076787 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jan@vllmr.dev",
+            "name": "Jan Vollmer",
+            "username": "jvllmr"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "035ace50690e2b7311ffaa702c635e3530e14db8",
+          "message": "refactor: drop sqlalchemy v1 support and modernize repository (#16)\n\n* refactor: drop sqlalchemy v1 support and modernize repository\r\n\r\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\r\n\r\nfor more information, see https://pre-commit.ci\r\n\r\n* prettier 3.1.0 in pre-commit\r\n\r\n* only upload benchmark when not in pull request\r\n\r\n* revert breaking change\r\n\r\n* remove var name collision in tests\r\n\r\n* full update\r\n\r\n* bind mapper exceptions cannot be covered\r\n\r\n---------\r\n\r\nCo-authored-by: pre-commit-ci[bot] <66853113+pre-commit-ci[bot]@users.noreply.github.com>",
+          "timestamp": "2024-11-27T23:10:51+01:00",
+          "tree_id": "ff66fd2c5c2a90f5fdbaa1d8a15ae98d6e2ba08a",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/commit/035ace50690e2b7311ffaa702c635e3530e14db8"
+        },
+        "date": 1732745507886,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 320.22885675290803,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0015275922147991484",
+            "extra": "mean: 3.1227666680008497 msec\nrounds: 250"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 1941.6408894732888,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000014002901032888672",
+            "extra": "mean: 515.028296644119 usec\nrounds: 1490"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options0-lib_options0]",
+            "value": 4.016470478658342,
+            "unit": "iter/sec",
+            "range": "stddev: 0.01458302495667048",
+            "extra": "mean: 248.97481640000478 msec\nrounds: 5"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options1-lib_options1]",
+            "value": 15.726505444050265,
+            "unit": "iter/sec",
+            "range": "stddev: 0.012390819104920674",
+            "extra": "mean: 63.58691723076504 msec\nrounds: 13"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options0-lib_options0]",
+            "value": 177.13709702322848,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002155987577653912",
+            "extra": "mean: 5.645344858896876 msec\nrounds: 163"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options1-lib_options1]",
+            "value": 15.448599154201537,
+            "unit": "iter/sec",
+            "range": "stddev: 0.012896326541183138",
+            "extra": "mean: 64.73078821053048 msec\nrounds: 19"
           }
         ]
       }
