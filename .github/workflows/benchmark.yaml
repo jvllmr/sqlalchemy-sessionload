@@ -31,6 +31,7 @@ jobs:
       - name: Run tests
         run: pdm benchmark
       - name: Store benchmark result
+        if: github.event_name != 'pull_request'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: "pytest"
