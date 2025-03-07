@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1737970421197,
+  "lastUpdate": 1741383850707,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -7622,6 +7622,72 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.018705407855356248",
             "extra": "mean: 79.0064178235271 msec\nrounds: 17"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "66853113+pre-commit-ci[bot]@users.noreply.github.com",
+            "name": "pre-commit-ci[bot]",
+            "username": "pre-commit-ci[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "763cf6e31d57ef9904f400f5a1444a94d5316d89",
+          "message": "[pre-commit.ci] pre-commit autoupdate (#5)\n\n* [pre-commit.ci] pre-commit autoupdate\n\nupdates:\n- [github.com/asottile/pyupgrade: v3.19.0 → v3.19.1](https://github.com/asottile/pyupgrade/compare/v3.19.0...v3.19.1)\n- [github.com/hadialqattan/pycln: v2.4.0 → v2.5.0](https://github.com/hadialqattan/pycln/compare/v2.4.0...v2.5.0)\n- [github.com/astral-sh/ruff-pre-commit: v0.8.0 → v0.9.9](https://github.com/astral-sh/ruff-pre-commit/compare/v0.8.0...v0.9.9)\n- [github.com/pre-commit/mirrors-prettier: v3.1.0 → v4.0.0-alpha.8](https://github.com/pre-commit/mirrors-prettier/compare/v3.1.0...v4.0.0-alpha.8)\n- [github.com/pre-commit/mirrors-mypy: v1.13.0 → v1.15.0](https://github.com/pre-commit/mirrors-mypy/compare/v1.13.0...v1.15.0)\n\n* Update .pre-commit-config.yaml\n\n---------\n\nCo-authored-by: pre-commit-ci[bot] <66853113+pre-commit-ci[bot]@users.noreply.github.com>\nCo-authored-by: Jan Vollmer <jan@vllmr.dev>",
+          "timestamp": "2025-03-07T22:43:27+01:00",
+          "tree_id": "76e355db732091a4d8c1b447bf27df7d54dff1d1",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/commit/763cf6e31d57ef9904f400f5a1444a94d5316d89"
+        },
+        "date": 1741383850406,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 329.5088755959716,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012816507044094427",
+            "extra": "mean: 3.034819618109933 msec\nrounds: 254"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 1933.174184270571,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000012839155305632402",
+            "extra": "mean: 517.2839613401532 usec\nrounds: 1552"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options0-lib_options0]",
+            "value": 4.2698285824456335,
+            "unit": "iter/sec",
+            "range": "stddev: 0.012294015520410146",
+            "extra": "mean: 234.2014393999932 msec\nrounds: 5"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options1-lib_options1]",
+            "value": 15.473399785521096,
+            "unit": "iter/sec",
+            "range": "stddev: 0.011411930925616324",
+            "extra": "mean: 64.62703826315719 msec\nrounds: 19"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options0-lib_options0]",
+            "value": 178.1117633114782,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002578357635785066",
+            "extra": "mean: 5.614452304597202 msec\nrounds: 174"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options1-lib_options1]",
+            "value": 15.54207593127838,
+            "unit": "iter/sec",
+            "range": "stddev: 0.01210519798727657",
+            "extra": "mean: 64.34146921052567 msec\nrounds: 19"
           }
         ]
       }
