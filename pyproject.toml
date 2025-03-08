@@ -69,6 +69,6 @@ dev = [
   "faker>=35.2.2",
   "pytest-benchmark>=5.1.0",
   "sqlalchemy-utils>=0.41.2",
-  "nox>=2024.10.9",
+  "nox>=2025.2.9",
   "types-sqlalchemy-utils>=1.1.0",
 ]
