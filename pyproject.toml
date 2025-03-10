@@ -57,18 +57,18 @@ ignore = ["E731"]
 
 [dependency-groups]
 dev = [
-  "black>=24.10.0",
+  "black>=25.1.0",
   "mypy>=1.15.0",
   "ruff>=0.9.10",
   "pytest>=8.3.5",
   "pytest-cov>=6.0.0",
-  "isort>=5.13.2",
+  "isort>=6.0.1",
   "pycln>=2.5.0",
   "pyaphid>=0.3.1",
   "pre-commit>=4.1.0",
-  "faker>=35.2.2",
+  "faker>=37.0.0",
   "pytest-benchmark>=5.1.0",
   "sqlalchemy-utils>=0.41.2",
-  "nox>=2024.10.9",
+  "nox>=2025.2.9",
   "types-sqlalchemy-utils>=1.1.0",
 ]
