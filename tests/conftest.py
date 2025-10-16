@@ -37,11 +37,12 @@ def random_choice(items: list[_T], min_length: int) -> list[_T]:
 def db_session():
     with Session() as session:
         # load everything into session
-        messages = session.query(Message).all()  # noqa: F841
-        users = (  # noqa: F841
-            session.query(User).options(sa_orm.joinedload(User.chat_rooms)).all()
-        )
-        chat_rooms = session.query(Chatroom).all()  # noqa: F841
+        messages = session.query(Message).all()
+        assert len(messages) > 0
+        users = session.query(User).options(sa_orm.joinedload(User.chat_rooms)).all()
+        assert len(users) > 0
+        chat_rooms = session.query(Chatroom).all()
+        assert len(chat_rooms) > 0
         yield session
 
 

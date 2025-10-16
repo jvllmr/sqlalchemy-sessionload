@@ -31,13 +31,14 @@ def test_basic_load_with_option(
         stmt = sa.select(Message).options(SessionLoad(Message))
         return db_session.execute(stmt).all()
 
+    assert len(preloaded_messages) > 0
     for message in preloaded_messages:
         assert message in loaded_messages
 
 
 def test_basic_load_with_option_query(db_session: sa_orm.Session):
     preloaded_messages = db_session.query(Message).all()
-
+    assert len(preloaded_messages) > 0
     loaded_messages = db_session.query(Message).options(SessionLoad(Message)).all()
     assert len(loaded_messages) == len(preloaded_messages)
     for message in preloaded_messages:
@@ -90,6 +91,7 @@ def test_relationship_load(
     preloaded_messages = db_session.execute(  # noqa: F841
         sa.select(Message).options(*basic_options)
     ).all()
+    assert len(preloaded_messages) > 0
 
     @benchmark
     def loaded_messages():  # noqa: F811
@@ -110,6 +112,7 @@ def test_relationship_load_option(
             sa.select(Message).options(*basic_options),
         )
     ]
+    assert len(messages) > 0
 
     @benchmark
     def loaded_messages():
