@@ -5,10 +5,10 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.5.0"
-content_hash = "sha256:feb56df1d11e440c0ccee12455cc8b78e9b39a016d6cd4501018205d82e98b2c"
+content_hash = "sha256:90563b2117f843ecf34f6207cb9bcf270e593bd2e679c7eaa852800e8af250cd"
 
 [[metadata.targets]]
-requires_python = ">=3.9"
+requires_python = ">=3.10"
 
 [[package]]
 name = "argcomplete"
