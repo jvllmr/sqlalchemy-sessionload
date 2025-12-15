@@ -3,7 +3,7 @@ name = "sqlalchemy-sessionload"
 description = "SQLAlchemy load option that loads only from persisted session instances"
 authors = [{ name = "Jan Vollmer", email = "jan@vllmr.dev" }]
 license = { file = "LICENSE" }
-dependencies = ["sqlalchemy>=2.0.44"]
+dependencies = ["sqlalchemy>=2.0.45"]
 requires-python = ">=3.10"
 readme = "README.md"
 keywords = ["sqlalchemy", "session", "loader"]
@@ -58,8 +58,8 @@ ignore = ["E731"]
 [dependency-groups]
 dev = [
   "black>=25.12.0",
-  "mypy>=1.19.0",
-  "ruff>=0.14.8",
+  "mypy>=1.19.1",
+  "ruff>=0.14.9",
   "pytest>=9.0.2",
   "pytest-cov>=7.0.0",
   "isort>=7.0.0",
@@ -68,7 +68,7 @@ dev = [
   "pre-commit>=4.5.0",
   "faker>=38.2.0",
   "pytest-benchmark>=5.2.3",
-  "sqlalchemy-utils>=0.42.0",
+  "sqlalchemy-utils>=0.42.1",
   "nox>=2025.11.12",
   "types-sqlalchemy-utils>=1.1.0",
 ]
