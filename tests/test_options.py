@@ -13,7 +13,7 @@ def test_basic_load(db_session: sa_orm.Session, benchmark: BenchmarkFixture):
     preloaded_messages = db_session.execute(sa.select(Message)).all()  # noqa: F841
 
     @benchmark  # type:ignore[no-redef]
-    def loaded_messages():  # noqa: F811
+    def loaded_messages():
         stmt = sa.select(Message)
         return db_session.execute(stmt).all()
 
@@ -24,7 +24,7 @@ def test_basic_load(db_session: sa_orm.Session, benchmark: BenchmarkFixture):
 def test_basic_load_with_option(
     db_session: sa_orm.Session, benchmark: BenchmarkFixture
 ):
-    preloaded_messages = db_session.execute(sa.select(Message)).all()  # noqa: F841
+    preloaded_messages = db_session.execute(sa.select(Message)).all()
 
     @benchmark  # type:ignore[no-redef]
     def loaded_messages():
@@ -88,13 +88,13 @@ load_option_params = [
 def test_relationship_load(
     db_session: sa_orm.Session, benchmark: BenchmarkFixture, basic_options, lib_options
 ):
-    preloaded_messages = db_session.execute(  # noqa: F841
+    preloaded_messages = db_session.execute(
         sa.select(Message).options(*basic_options)
     ).all()
     assert len(preloaded_messages) > 0
 
     @benchmark
-    def loaded_messages():  # noqa: F811
+    def loaded_messages():
         stmt = sa.select(Message).options(*basic_options)
         return db_session.execute(stmt).all()
 
