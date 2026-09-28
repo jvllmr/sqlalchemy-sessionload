@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
 
@@ -10,7 +9,7 @@ from sqlalchemy_sessionload.loaders import (
     load_from_session,
 )
 
-from .model import Message, User, Chatroom
+from .model import Chatroom, Message, User
 
 message_mapper = Message.__mapper__
 
