@@ -4,7 +4,7 @@ description = "SQLAlchemy load option that loads only from persisted session ins
 authors = [{ name = "Jan Vollmer", email = "jan@vllmr.dev" }]
 license = { file = "LICENSE" }
 dependencies = ["sqlalchemy>=2.0.46"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 readme = "README.md"
 keywords = ["sqlalchemy", "session", "loader"]
 classifiers = [
@@ -12,7 +12,6 @@ classifiers = [
   "Environment :: Plugins",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -29,9 +28,6 @@ Source = "https://github.com/jvllmr/sqlalchemy-sessionload"
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
-[tool.pdm]
-ignore_package_warnings = ["pre-commit"]
-
 [tool.pdm.version]
 source = "scm"
 
@@ -39,15 +35,14 @@ source = "scm"
 test = "pytest"
 cov = "pytest --cov --cov-report=xml"
 benchmark = "pytest --benchmark-json benchmark.json"
-post_install = "pre-commit install"
+post_install = "prek install"
 
 [tool.pycln]
 all = true
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 files = ["src/sqlalchemy_sessionload", "tests"]
-plugins = ["sqlalchemy.ext.mypy.plugin"]
 
 [tool.pyaphid]
 forbidden = ["print"]
@@ -65,10 +60,10 @@ dev = [
   "isort>=7.0.0",
   "pycln>=2.6.0",
   "pyaphid>=0.3.1",
-  "pre-commit>=4.5.1",
   "faker>=40.1.2",
   "pytest-benchmark>=5.2.3",
   "sqlalchemy-utils>=0.42.1",
   "nox>=2025.11.12",
   "types-sqlalchemy-utils>=1.1.0",
+  "prek>=0.5.4",
 ]

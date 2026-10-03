@@ -4,11 +4,11 @@
 [metadata]
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
-lock_version = "4.5.0"
-content_hash = "sha256:3c3b6ca70f10329b87da86ae8d75f22c95bf0554cc19eb01289848363a7e6ff5"
+lock_version = "4.5.1"
+content_hash = "sha256:a86c175dc6ea1cca288a07508ceab5a6ce86ad31b1a3cbaf751211e812436d45"
 
 [[metadata.targets]]
-requires_python = ">=3.10"
+requires_python = ">=3.11"
 
 [[package]]
 name = "argcomplete"
@@ -83,16 +83,6 @@ files = [
     {file = "black-26.1.0-cp314-cp314-win_arm64.whl", hash = "sha256:66912475200b67ef5a0ab665011964bf924745103f51977a78b4fb92a9fc1bf0"},
     {file = "black-26.1.0-py3-none-any.whl", hash = "sha256:1054e8e47ebd686e078c0bb0eaf31e6ce69c966058d122f2c0c950311f9f3ede"},
     {file = "black-26.1.0.tar.gz", hash = "sha256:d294ac3340eef9c9eb5d29288e96dc719ff269a88e27b396340459dd85da4c58"},
-]
-
-[[package]]
-name = "cfgv"
-version = "3.5.0"
-requires_python = ">=3.10"
-summary = "Validate configuration and produce human readable error messages."
-files = [
-    {file = "cfgv-3.5.0-py2.py3-none-any.whl", hash = "sha256:a8dc6b26ad22ff227d2634a65cb388215ce6cc96bbcc5cfde7641ae87e8dacc0"},
-    {file = "cfgv-3.5.0.tar.gz", hash = "sha256:d5b1034354820651caa73ede66a6294d6e95c1b00acc5e9b098e917404669132"},
 ]
 
 [[package]]
@@ -360,19 +350,6 @@ files = [
 ]
 
 [[package]]
-name = "exceptiongroup"
-version = "1.3.1"
-requires_python = ">=3.7"
-summary = "Backport of PEP 654 (exception groups)"
-dependencies = [
-    "typing-extensions>=4.6.0; python_version < \"3.13\"",
-]
-files = [
-    {file = "exceptiongroup-1.3.1-py3-none-any.whl", hash = "sha256:a7a39a3bd276781e98394987d3a5701d0c4edffb633bb7a5144577f82c773598"},
-    {file = "exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219"},
-]
-
-[[package]]
 name = "faker"
 version = "40.1.2"
 requires_python = ">=3.10"
@@ -464,16 +441,6 @@ summary = "Python humanize utilities"
 files = [
     {file = "humanize-4.15.0-py3-none-any.whl", hash = "sha256:b1186eb9f5a9749cd9cb8565aee77919dd7c8d076161cf44d70e59e3301e1769"},
     {file = "humanize-4.15.0.tar.gz", hash = "sha256:1dd098483eb1c7ee8e32eb2e99ad1910baefa4b75c3aff3a82f4d78688993b10"},
-]
-
-[[package]]
-name = "identify"
-version = "2.6.16"
-requires_python = ">=3.10"
-summary = "File identification library for Python"
-files = [
-    {file = "identify-2.6.16-py2.py3-none-any.whl", hash = "sha256:391ee4d77741d994189522896270b787aed8670389bfd60f326d677d64a6dfb0"},
-    {file = "identify-2.6.16.tar.gz", hash = "sha256:846857203b5511bbe94d5a352a48ef2359532bc8f6727b5544077a0dcfb24980"},
 ]
 
 [[package]]
@@ -722,16 +689,6 @@ files = [
 ]
 
 [[package]]
-name = "nodeenv"
-version = "1.10.0"
-requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
-summary = "Node.js virtual environment builder"
-files = [
-    {file = "nodeenv-1.10.0-py2.py3-none-any.whl", hash = "sha256:5bb13e3eed2923615535339b3c620e76779af4cb4c6a90deccc9e36b274d3827"},
-    {file = "nodeenv-1.10.0.tar.gz", hash = "sha256:996c191ad80897d076bdfba80a41994c2b47c68e224c542b48feba42ba00f8bb"},
-]
-
-[[package]]
 name = "nox"
 version = "2025.11.12"
 requires_python = ">=3.8"
@@ -794,20 +751,20 @@ files = [
 ]
 
 [[package]]
-name = "pre-commit"
-version = "4.5.1"
-requires_python = ">=3.10"
-summary = "A framework for managing and maintaining multi-language pre-commit hooks."
-dependencies = [
-    "cfgv>=2.0.0",
-    "identify>=1.0.0",
-    "nodeenv>=0.11.1",
-    "pyyaml>=5.1",
-    "virtualenv>=20.10.0",
-]
+name = "prek"
+version = "0.5.4"
+requires_python = ">=3.8"
+summary = "A fast Git hook manager written in Rust, designed as a drop-in alternative to pre-commit, reimagined."
 files = [
-    {file = "pre_commit-4.5.1-py2.py3-none-any.whl", hash = "sha256:3b3afd891e97337708c1674210f8eba659b52a38ea5f822ff142d10786221f77"},
-    {file = "pre_commit-4.5.1.tar.gz", hash = "sha256:eb545fcff725875197837263e977ea257a402056661f09dae08e4b149b030a61"},
+    {file = "prek-0.5.4-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:550ecaae0601f9405526c866a57cc6882ed1e9d8696ac1117b8703bb37d087eb"},
+    {file = "prek-0.5.4-py3-none-macosx_11_0_arm64.whl", hash = "sha256:a7ef67cc23e23c6e9c6ca0b27a7b12c19f16774d36b1c88ed035f2639995718d"},
+    {file = "prek-0.5.4-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:59f2206850f643bafe46b28b4431525f8dcc5b7a763f271179bff10b8157870d"},
+    {file = "prek-0.5.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7d5b0cab1219a7bc9cc90785c7436f563765440616543ede7dfa3ba5c332cede"},
+    {file = "prek-0.5.4-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:8fc22db8132dab9aed4e152bf6a58a7f791f4c91c74305d65d96c48b8ec0bc62"},
+    {file = "prek-0.5.4-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:19d4f3986dcd1dfa15f9417e32a75fb2ba084156dbd7ace161f0764281b8064b"},
+    {file = "prek-0.5.4-py3-none-win_amd64.whl", hash = "sha256:3100233ba802eff6a4b09bc045c8f50d599bb9d810fa234823bc1642938b224f"},
+    {file = "prek-0.5.4-py3-none-win_arm64.whl", hash = "sha256:9fc4ad2d647f70a8a3a9900849e1dd89472cf5a71d830f083b62cf87a0406e27"},
+    {file = "prek-0.5.4.tar.gz", hash = "sha256:7f5bc061880141e362ef422e52188d0090794c0622e442e3157686d1e342780a"},
 ]
 
 [[package]]
