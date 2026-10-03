@@ -38,7 +38,7 @@ class SQLAlchemySessionLoad:
                 )
 
                 return IteratorResult(
-                    result_metadata, map(lambda obj: (obj,), result_iterator)
+                    result_metadata, ((obj,) for obj in result_iterator)
                 )
 
     def receive_orm_execute(self, orm_execute_state: ORMExecuteState):

@@ -18,7 +18,7 @@ class Order(Enum):
     DESC = 1
 
 
-TSortSpec = t.Tuple[str, Order]
+TSortSpec = tuple[str, Order]
 
 
 def _cmp_func(*args: TSortSpec):

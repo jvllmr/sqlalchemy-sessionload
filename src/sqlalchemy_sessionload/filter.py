@@ -17,14 +17,14 @@ from sqlalchemy.sql.elements import (
 )
 from sqlalchemy.sql.selectable import Select
 
-TSupportedExprs = t.Union[
-    BooleanClauseList,
-    BinaryExpression,
-    ColumnElement,
-    UnaryExpression,
-    Grouping,
-    ClauseElement,
-]
+TSupportedExprs: t.TypeAlias = (
+    BooleanClauseList
+    | BinaryExpression
+    | ColumnElement
+    | UnaryExpression
+    | Grouping
+    | ClauseElement
+)
 
 
 def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.Any]:

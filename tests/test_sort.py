@@ -1,8 +1,9 @@
 import pytest
+import sqlalchemy as sa
 import sqlalchemy.orm as sa_orm
 
 from sqlalchemy_sessionload.options import SessionLoad
-import sqlalchemy as sa
+
 from .model import Message
 
 
