@@ -18,12 +18,6 @@ def is_query_api(orm_execute_state: ORMExecuteState) -> bool:
     )
 
 
-class QueryAPIIteratorResult(IteratorResult):
-    @property
-    def _row_getter(self):
-        return None
-
-
 class SQLAlchemySessionLoad:
     def __init__(self, session_factory: sa_orm.sessionmaker[t.Any]) -> None:
         event.listen(session_factory, "do_orm_execute", self.receive_orm_execute)
@@ -43,10 +37,6 @@ class SQLAlchemySessionLoad:
                     [orm_execute_state.bind_mapper.class_.__name__]
                 )
 
-                if not orm_execute_state.is_relationship_load and is_query_api(
-                    orm_execute_state
-                ):
-                    return QueryAPIIteratorResult(result_metadata, result_iterator)
                 return IteratorResult(
                     result_metadata, map(lambda obj: (obj,), result_iterator)
                 )

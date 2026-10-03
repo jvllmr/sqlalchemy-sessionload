@@ -42,8 +42,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
             return lambda obj: any(clause(obj) for clause in eval_clauses)
     elif isinstance(expr, ClauseList):
         return lambda obj: [
-            evaluate_expression(clause, **kw)(obj)
-            for clause in expr.clauses  # type: ignore
+            evaluate_expression(clause, **kw)(obj) for clause in expr.clauses
         ]
     elif isinstance(expr, BinaryExpression):
         eval_left = evaluate_expression(expr.left, **kw)
@@ -82,7 +81,7 @@ def evaluate_expression(expr: TSupportedExprs, **kw) -> t.Callable[[t.Any], t.An
 
         return lambda obj: op(eval_expr(obj))
     elif isinstance(expr, Grouping):
-        eval_expr = evaluate_expression(expr.element, **kw)
+        eval_expr = evaluate_expression(expr.element, **kw)  # type: ignore
         return lambda obj: eval_expr(obj)
     elif isinstance(expr, AnnotatedColumn):
         # try to access attribute from instance

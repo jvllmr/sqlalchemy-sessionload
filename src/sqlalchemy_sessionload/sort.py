@@ -85,8 +85,7 @@ def construct_sort_key(
     statement: Select,
 ):
     sort_key_spec = (
-        generate_sort_key_spec(clause)
-        for clause in statement._order_by_clauses  # type: ignore
+        generate_sort_key_spec(clause) for clause in statement._order_by_clauses
     )
     return sql_sort_key(*sort_key_spec)
 
@@ -102,6 +101,6 @@ def sort_with_statement(statement: Select, objects: t.Iterable[_T]) -> list[_T]:
 def maybe_apply_sort(
     statement: Select, objects: t.Iterable[_T]
 ) -> list[_T] | t.Iterable[_T]:
-    if statement._order_by_clauses:  # type: ignore
+    if statement._order_by_clauses:
         return sort_with_statement(statement, objects)
     return objects

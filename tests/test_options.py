@@ -39,7 +39,9 @@ def test_basic_load_with_option(
 def test_basic_load_with_option_query(db_session: sa_orm.Session):
     preloaded_messages = db_session.query(Message).all()
     assert len(preloaded_messages) > 0
-    loaded_messages = db_session.query(Message).options(SessionLoad(Message)).all()
+    loaded_messages = db_session.scalars(
+        sa.select(Message).options(SessionLoad(Message))
+    ).all()
     assert len(loaded_messages) == len(preloaded_messages)
     for message in preloaded_messages:
         assert message in loaded_messages
@@ -52,7 +54,7 @@ def test_equal_result_metadata_keys(db_session: sa_orm.Session):
         sa.select(Message).options(SessionLoad(Message))
     )
 
-    assert loaded_messages._metadata._keys == preloaded_messages._metadata._keys  # type: ignore
+    assert loaded_messages._metadata._keys == preloaded_messages._metadata._keys
 
 
 load_option_params = [

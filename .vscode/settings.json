@@ -10,6 +10,6 @@
   "mypy-type-checker.preferDaemon": true,
   "mypy-type-checker.reportingScope": "workspace",
   "cSpell.words": ["sqlalchemy"],
-  "python.languageServer": "Pylance",
+  "python.languageServer": "None",
   "python.defaultInterpreterPath": ".venv/bin/python"
 }

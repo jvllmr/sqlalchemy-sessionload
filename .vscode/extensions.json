@@ -1,11 +1,9 @@
 {
   "recommendations": [
-    "ms-python.mypy-type-checker",
-    "ms-python.black-formatter",
     "charliermarsh.ruff",
     "streetsidesoftware.code-spell-checker",
-    "ms-python.vscode-pylance",
     "ms-python.python",
-    "tamasfe.even-better-toml"
+    "tombi-toml.tombi",
+    "astral-sh.ty"
   ]
 }

@@ -8,7 +8,7 @@
 SQLAlchemy load option that loads from persisted session instances.
 
 > [!IMPORTANT]
-> The goal of this load option is to achieve performance gains in specific use-cases by not querying the database or serializing new objects and reading from cache instead. This means that you as a user need to make sure before that all of the objects you expect to find within a query are already present inside the session store. Use with care!
+> The goal of this load option is to achieve performance gains in specific use-cases by not querying the database or serializing new objects and reading from cache instead. This means that you as a user need to make sure before that all of the objects you expect to find within a query are already present inside the session store. Use with care! Earlier versions supported the legacy `.query` API. Since `sqlalchemy-sessionload>=1.1.1` does not support it anymore.
 
 ## Basic usage
 

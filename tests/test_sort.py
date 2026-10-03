@@ -2,7 +2,7 @@ import pytest
 import sqlalchemy.orm as sa_orm
 
 from sqlalchemy_sessionload.options import SessionLoad
-
+import sqlalchemy as sa
 from .model import Message
 
 
@@ -17,13 +17,12 @@ from .model import Message
     ids=lambda exprs: " ".join(str(expr) for expr in exprs),
 )
 def test_order_by_expressions(db_session: sa_orm.Session, expressions):
-    messages = db_session.query(Message).order_by(*expressions).all()
+    messages = db_session.scalars(sa.select(Message).order_by(*expressions)).all()
     loaded_messages = (
-        db_session.query(Message)
-        .options(SessionLoad(Message))
-        .order_by(*expressions)
-        .all()
-    )
+        db_session.scalars(
+            sa.select(Message).options(SessionLoad(Message)).order_by(*expressions)
+        )
+    ).all()
 
     assert len(loaded_messages) == len(messages)
     assert loaded_messages == messages, (

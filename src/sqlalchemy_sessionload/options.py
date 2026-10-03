@@ -5,7 +5,7 @@ from abc import ABCMeta, abstractmethod
 
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.orm.interfaces import UserDefinedOption
-from sqlalchemy.orm.path_registry import PropRegistry
+from sqlalchemy.orm.path_registry import _PropRegistry
 from sqlalchemy.orm.session import ORMExecuteState
 from sqlalchemy.sql.selectable import Select
 
@@ -88,7 +88,7 @@ class SessionRelationshipLoad(SessionLoadOption):
         return (
             orm_execute_state.is_orm_statement
             and orm_execute_state.is_relationship_load
-            and isinstance(strategy_path, PropRegistry)
+            and isinstance(strategy_path, _PropRegistry)
             and strategy_path.mapper is target_mapper
         )
 
