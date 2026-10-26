@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.2
+    rev: v3.22.0
     hooks:
       - id: pyupgrade
         args:
@@ -22,14 +22,14 @@ repos:
         additional_dependencies:
           - black
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.16.10"
+    rev: "v0.17.2"
     hooks:
       - id: ruff
         args:
           - --fix
       - id: ruff-format
   - repo: https://github.com/jvllmr/pre-commit-prettier
-    rev: v3.9.9
+    rev: v3.9.10
     hooks:
       - id: prettier
         additional_dependencies: [prettier@latest, prettier-plugin-toml@latest]
