@@ -62,7 +62,7 @@ dev = [
   "pyaphid>=0.3.1",
   "faker>=40.1.2",
   "pytest-benchmark>=5.2.3",
-  "nox>=2025.11.12",
+  "nox>=2026.10.20",
   "types-sqlalchemy-utils>=1.1.0",
   "prek>=0.5.4",
 ]
