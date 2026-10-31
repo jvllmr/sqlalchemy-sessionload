@@ -53,7 +53,7 @@ ignore = ["E731"]
 [dependency-groups]
 dev = [
   "black>=26.1.0",
-  "mypy>=1.19.1",
+  "mypy>=2.4.1",
   "ruff>=0.14.14",
   "pytest>=9.0.2",
   "pytest-cov>=7.0.0",
