@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793594066498,
+  "lastUpdate": 1794204083159,
   "repoUrl": "https://github.com/jvllmr/sqlalchemy-sessionload",
   "entries": {
     "Benchmark": [
@@ -11186,6 +11186,72 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004275626731967199",
             "extra": "mean: 22.588895319149092 msec\nrounds: 47"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "29139614+renovate[bot]@users.noreply.github.com",
+            "name": "renovate[bot]",
+            "username": "renovate[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ca33c96440ad1b118b87d2e0c8ffe86d62e0f920",
+          "message": "fix(deps): update all non-major dependencies (#85)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+          "timestamp": "2026-11-09T06:00:19Z",
+          "tree_id": "c4d3b8802b5a10ea282929744343ee1b831b039c",
+          "url": "https://github.com/jvllmr/sqlalchemy-sessionload/commit/ca33c96440ad1b118b87d2e0c8ffe86d62e0f920"
+        },
+        "date": 1794204082287,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_options.py::test_basic_load",
+            "value": 401.2195208475585,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0022531696770900825",
+            "extra": "mean: 2.4924011620559847 msec\nrounds: 253"
+          },
+          {
+            "name": "tests/test_options.py::test_basic_load_with_option",
+            "value": 2635.9145232697074,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000012134550049761524",
+            "extra": "mean: 379.37497258429875 usec\nrounds: 2225"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options0-lib_options0]",
+            "value": 5.504275098913747,
+            "unit": "iter/sec",
+            "range": "stddev: 0.03326236824723368",
+            "extra": "mean: 181.67696600000008 msec\nrounds: 6"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load[basic_options1-lib_options1]",
+            "value": 46.1869096616457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00356892195148431",
+            "extra": "mean: 21.651156297872316 msec\nrounds: 47"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options0-lib_options0]",
+            "value": 236.20183416083202,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001720499457153068",
+            "extra": "mean: 4.233667378378995 msec\nrounds: 222"
+          },
+          {
+            "name": "tests/test_options.py::test_relationship_load_option[basic_options1-lib_options1]",
+            "value": 45.44590672993035,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004687995684533378",
+            "extra": "mean: 22.00418193749905 msec\nrounds: 48"
           }
         ]
       }
